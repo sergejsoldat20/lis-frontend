@@ -37,7 +37,9 @@ export default function Navbar() {
         <Menu.SubMenu style={{ float: "left" }} title="Patients">
           <Menu.ItemGroup>
             <Menu.Item key="setting:1">Add</Menu.Item>
-            <Menu.Item key="setting:2">View</Menu.Item>
+            <Menu.Item key="setting:2" as={<Link to="/patients" />}>
+              View
+            </Menu.Item>
           </Menu.ItemGroup>
         </Menu.SubMenu>
         <Menu.SubMenu style={{ float: "left" }} title="Medical Records">
