@@ -14,9 +14,7 @@ export default function ViewBiochemistry() {
     loadBiochemistry();
   });
   const loadBiochemistry = async () => {
-    const result = await axios.get(
-      `http://localhost:9000/results/biochemistry`
-    );
+    const result = await axios.get(`http://localhost:9000/biochemistries`);
     setBiochemistry(result.data);
   };
 

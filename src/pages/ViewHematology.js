@@ -14,7 +14,7 @@ export default function ViewHematology() {
     loadHematology();
   });
   const loadHematology = async () => {
-    const result = await axios.get(`http://localhost:9000/results/hematology`);
+    const result = await axios.get(`http://localhost:9000/hematologies`);
     setHematology(result.data);
   };
 

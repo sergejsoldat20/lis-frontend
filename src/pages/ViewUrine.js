@@ -14,7 +14,7 @@ export default function ViewUrine() {
     loadUrine();
   });
   const loadUrine = async () => {
-    const result = await axios.get(`http://localhost:9000/results/urine`);
+    const result = await axios.get(`http://localhost:9000/urines`);
     setUrine(result.data);
   };
 

@@ -34,27 +34,13 @@ export default function Navbar() {
             LIS
           </Link>
         </Menu.Item>
-        <Menu.SubMenu
-          style={{ float: "left" }}
-          title={
-            <Link className="btn btn-outline-light" to="/home">
-              Patients
-            </Link>
-          }
-        >
+        <Menu.SubMenu style={{ float: "left" }} title="Patients">
           <Menu.ItemGroup>
             <Menu.Item key="setting:1">Add</Menu.Item>
             <Menu.Item key="setting:2">View</Menu.Item>
           </Menu.ItemGroup>
         </Menu.SubMenu>
-        <Menu.SubMenu
-          style={{ float: "left" }}
-          title={
-            <Link className="btn btn-outline-light" to="/home">
-              Medical Records
-            </Link>
-          }
-        >
+        <Menu.SubMenu style={{ float: "left" }} title="Medical Records">
           <Menu.ItemGroup>
             <Menu.Item key="setting:1">Add</Menu.Item>
             <Menu.Item key="setting:2">View</Menu.Item>
