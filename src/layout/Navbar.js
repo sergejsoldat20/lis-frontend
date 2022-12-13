@@ -1,0 +1,66 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { MenuOutlined } from "@ant-design/icons";
+import { Menu, Switch } from "antd";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+export default function Navbar() {
+  const [current, setCurrent] = useState("mail");
+  const onClick = (e) => {
+    console.log("click ", e);
+    setCurrent(e.key);
+  };
+  const [darkMode, setDarkMode] = useState(false);
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? "dark" : "light",
+    },
+  });
+  const onChange = (checked) => {
+    checked = { darkMode };
+    setDarkMode(!darkMode);
+  };
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Menu
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        style={{ display: "block" }}
+      >
+        <Menu.Item style={{ float: "left" }}>
+          <Link class="btn btn-outline-light" to={"/home"}>
+            Lis
+          </Link>
+        </Menu.Item>
+        <Menu.Item style={{ float: "left" }}>
+          <Link className="btn btn-outline-light" to="/home">
+            Patients
+          </Link>
+        </Menu.Item>
+        <Menu.Item style={{ float: "left" }}>
+          <Link className="btn btn-outline-light" to="/home">
+            Info
+          </Link>
+        </Menu.Item>
+        <Menu.SubMenu
+          style={{ float: "right" }}
+          title={
+            <span>
+              <MenuOutlined />
+            </span>
+          }
+        >
+          <Menu.ItemGroup title="Menu">
+            <Menu.Item key="setting:1">Option 1</Menu.Item>
+            <Menu.Item key="setting:2">
+              Dark Mode <Switch onChange={onChange} />
+            </Menu.Item>
+            <Menu.Item>Log out</Menu.Item>
+          </Menu.ItemGroup>
+        </Menu.SubMenu>
+      </Menu>
+    </ThemeProvider>
+  );
+}

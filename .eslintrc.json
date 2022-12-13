@@ -18,5 +18,5 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": { "files.eol": "\n" }
+  "rules": {}
 }
