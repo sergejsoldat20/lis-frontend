@@ -27,18 +27,39 @@ export default function Navbar() {
         onClick={onClick}
         selectedKeys={[current]}
         mode="horizontal"
-        style={{ display: "block" }}
+        style={{ display: "block", fontSize: 21 }}
       >
         <Menu.Item style={{ float: "left" }}>
           <Link class="btn btn-outline-light" to={"/home"}>
-            Lis
+            LIS
           </Link>
         </Menu.Item>
-        <Menu.Item style={{ float: "left" }}>
-          <Link className="btn btn-outline-light" to="/home">
-            Patients
-          </Link>
-        </Menu.Item>
+        <Menu.SubMenu
+          style={{ float: "left" }}
+          title={
+            <Link className="btn btn-outline-light" to="/home">
+              Patients
+            </Link>
+          }
+        >
+          <Menu.ItemGroup>
+            <Menu.Item key="setting:1">Add</Menu.Item>
+            <Menu.Item key="setting:2">View</Menu.Item>
+          </Menu.ItemGroup>
+        </Menu.SubMenu>
+        <Menu.SubMenu
+          style={{ float: "left" }}
+          title={
+            <Link className="btn btn-outline-light" to="/home">
+              Medical Records
+            </Link>
+          }
+        >
+          <Menu.ItemGroup>
+            <Menu.Item key="setting:1">Add</Menu.Item>
+            <Menu.Item key="setting:2">View</Menu.Item>
+          </Menu.ItemGroup>
+        </Menu.SubMenu>
         <Menu.Item style={{ float: "left" }}>
           <Link className="btn btn-outline-light" to="/home">
             Info
