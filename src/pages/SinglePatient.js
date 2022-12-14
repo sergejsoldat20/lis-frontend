@@ -40,8 +40,6 @@ export default function SinglePatient() {
 
   const loadPatient = async () => {
     const result = await axios.get(`http://localhost:9000/patients/${id}`);
-    console.log("aloeeeeee");
-    console.log(result.data);
     setPatient(result.data);
   };
 
