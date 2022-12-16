@@ -3,7 +3,6 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
 import { GlobalStyles } from "@mui/system";
 import { Grid } from "@mui/material";
-
 export default function LogIn() {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);

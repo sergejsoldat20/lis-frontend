@@ -22,7 +22,7 @@ export default function ReturnBiochemistryFunction(property) {
             <TableCell component="th" scope="row" align="left">
               s-creatinine
             </TableCell>
-            <TableCell align="center">{property}</TableCell>
+            <TableCell align="center">1</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">s-glucose</TableCell>
