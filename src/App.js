@@ -8,6 +8,7 @@ import SinglePatient from "./pages/SinglePatient";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ViewUrine from "./pages/ViewUrine";
+import ViewMedicalRecord from "./pages/ViewMedicalRecord";
 
 function App() {
   return (
@@ -21,6 +22,11 @@ function App() {
           <Route exact path="/urine" element={<ViewUrine />} />
           <Route exact path="/patients" element={<Patients />} />
           <Route exact path="/single-patient/:id" element={<SinglePatient />} />
+          <Route
+            exact
+            path="/medical-records/:id"
+            element={<ViewMedicalRecord />}
+          />
         </Routes>
       </Router>
     </div>

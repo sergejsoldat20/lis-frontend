@@ -38,8 +38,8 @@ export default function ViewHematology() {
     },
   }));
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} sx={{ width: 700, borderRadius: 3 }}>
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>#</StyledTableCell>
@@ -56,19 +56,54 @@ export default function ViewHematology() {
               <StyledTableCell component="th" scope="row">
                 {index + 1}
               </StyledTableCell>
-              <StyledTableCell align="center">
+              <StyledTableCell
+                align="center"
+                sx={{
+                  color: provjeriGranice(hematology.leukocytes, 5.5, 9)
+                    ? "red"
+                    : "black",
+                }}
+              >
                 {hematology.leukocytes}
               </StyledTableCell>
-              <StyledTableCell align="center">
+              <StyledTableCell
+                align="center"
+                sx={{
+                  color: provjeriGranice(hematology.erythrocytes, 4, 10)
+                    ? "red"
+                    : "black",
+                }}
+              >
                 {hematology.erythrocytes}
               </StyledTableCell>
-              <StyledTableCell align="center">
+              <StyledTableCell
+                align="center"
+                sx={{
+                  color: provjeriGranice(hematology.hemaglobin, 7, 8)
+                    ? "red"
+                    : "black",
+                }}
+              >
                 {hematology.hemaglobin}
               </StyledTableCell>
-              <StyledTableCell align="center">
+              <StyledTableCell
+                align="center"
+                sx={{
+                  color: provjeriGranice(hematology.hematocrit, 7, 8)
+                    ? "red"
+                    : "black",
+                }}
+              >
                 {hematology.hematocrit}
               </StyledTableCell>
-              <StyledTableCell align="center">
+              <StyledTableCell
+                align="center"
+                sx={{
+                  color: provjeriGranice(hematology.platelets, 7, 8)
+                    ? "red"
+                    : "black",
+                }}
+              >
                 {hematology.platelets}
               </StyledTableCell>
             </StyledTableRow>
@@ -77,4 +112,9 @@ export default function ViewHematology() {
       </Table>
     </TableContainer>
   );
+}
+function provjeriGranice(broj, a, b) {
+  if (broj < a) return true;
+  else if (broj > b) return true;
+  else return false;
 }

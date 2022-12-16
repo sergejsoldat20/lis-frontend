@@ -38,8 +38,8 @@ export default function ViewUrine() {
     },
   }));
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} sx={{ width: 700, borderRadius: 3 }}>
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>#</StyledTableCell>

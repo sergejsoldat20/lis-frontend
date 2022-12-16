@@ -1,17 +1,35 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Grid } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import { Descriptions } from "antd";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import { Grid, ListItem, List } from "@mui/material";
+import ReturnBiochemistryFunction from "../modules/ReturnBiochemistry";
+import ReturnHematologyFunction from "../modules/ReturnHematology";
+import ReturnUrineFunction from "../modules/ReturnUrine";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
+import { Box } from "@mui/system";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
 export default function SinglePatient() {
+  const [expanded, setExpanded] = useState([]);
+  const [biochemistries, setBiochemistry] = useState([]);
+  // const [hematologies, setHematology] = useState([]);
+  // const [urines, setUrine] = useState([]);
+  const handleExpandClick = (broj) => {
+    if (expanded.includes(broj)) {
+      const expandedCopy = expanded.filter((element) => {
+        return element !== broj;
+      });
+      setExpanded(expandedCopy);
+    } else {
+      const expandedCopy = [...expanded];
+      expandedCopy.push(broj);
+      setExpanded(expandedCopy);
+    }
+  };
   const { id } = useParams();
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [patient, setPatient] = useState({
@@ -29,7 +47,10 @@ export default function SinglePatient() {
   useEffect(() => {
     loadPatient();
     loadPatientRecords();
-  });
+    loadBiochemistry();
+    // loadHematology();
+    // loadUrine();
+  }, []);
 
   const loadPatientRecords = async () => {
     const result = await axios.get(
@@ -42,99 +63,216 @@ export default function SinglePatient() {
     const result = await axios.get(`http://localhost:9000/patients/${id}`);
     setPatient(result.data);
   };
-
+  const loadBiochemistry = async () => {
+    const result = await axios.get(`http://localhost:9000/biochemistries`);
+    setBiochemistry(result.data);
+    console.log(result.data);
+    const bio = biochemistries.find((biochemistry) => biochemistry.id === 1);
+    console.log(bio.screatinine + "ISPIS");
+    console.log(bio.surea);
+  };
+  // const loadHematology = async () => {
+  //   const result = await axios.get(`http://localhost:9000/hematologies`);
+  //   setHematology(result.data);
+  // };
+  // const loadUrine = async () => {
+  //   const result = await axios.get(`http://localhost:9000/urines`);
+  //   setUrine(result.data);
+  // };
   const valid = (x) => {
     if (x === "true") return "validan";
     else return "nije validan";
   };
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.dark,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-
+  // function provjeriGranice(broj, a, b) {
+  //   if (broj < a) return true;
+  //   else if (broj > b) return true;
+  //   else return false;
+  //   sx={{  ide u celiju gdje se nalazi rezultat
+  //     color: provjeriGranice(
+  //       biochemistries.find(
+  //         (biochemistry) =>
+  //           biochemistry.id ===
+  //           medicalRecord.biochemistryId
+  //       ).sglucose,
+  //       6,
+  //       7
+  //     )
+  //       ? "red"
+  //       : "black",
+  //   }}
+  // }
+  // loadBiochemistry();
   return (
     <Grid container spacing={2}>
-      <Grid item xs={4}>
-        <Item>
-          <Descriptions title="Karton pacijenta">
-            <Descriptions.Item label="Ime">
-              {patient.firstName}
-            </Descriptions.Item>
-            <Descriptions.Item label="Prezime">
-              {patient.lastName}
-            </Descriptions.Item>
-            <Descriptions.Item label="Datum rodjenja">
-              {patient.birthDate}
-            </Descriptions.Item>
-            <Descriptions.Item label="JMBG">{patient.jmbg}</Descriptions.Item>
-            <Descriptions.Item label="Adresa">
-              {patient.address}
-            </Descriptions.Item>
-            <Descriptions.Item label="Telefon">
-              {patient.phone}
-            </Descriptions.Item>
-            <Descriptions.Item label="Grad">{patient.city}</Descriptions.Item>
-            <Descriptions.Item label="Porodicni ljekar">
-              {patient.familyDoctor}
-            </Descriptions.Item>
-          </Descriptions>
-        </Item>
-      </Grid>
-      <Grid item xs={8}>
-        <Item>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>#</StyledTableCell>
-                  <StyledTableCell align="center">ICD</StyledTableCell>
-                  <StyledTableCell align="center">Validacija</StyledTableCell>
-                  <StyledTableCell align="center">Info</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {medicalRecords.map((medicalRecord, index) => (
-                  <StyledTableRow key={index}>
-                    <StyledTableCell component="th" scope="row">
-                      {index + 1}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {medicalRecord.icd}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {valid(medicalRecord.isValid)}
-                    </StyledTableCell>
-                    <StyledTableCell align="center"></StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Item>
-      </Grid>
+      <Card sx={{ minWidth: 600, minHeight: 500, maxHeight: 500 }}>
+        <CardHeader title="Karton Pacijenta" />
+        <CardContent sx={{ textAlign: "left" }}>
+          <Box
+            sx={{
+              display: "grid",
+              gap: 1,
+              gridTemplateColumns: "repeat(1,1fr)",
+            }}
+          >
+            <ListItem variant="body2">Ime: {patient.firstName}</ListItem>
+            <ListItem variant="body2">Prezime: {patient.lastName}</ListItem>
+            <ListItem variant="body2">
+              Datum rodjenja: {patient.birthDate}
+            </ListItem>
+            <ListItem variant="body2">JMBG: {patient.jmbg}</ListItem>
+            <ListItem variant="body2">Adresa: {patient.address}</ListItem>
+            <ListItem variant="body2">Telefon: {patient.phone}</ListItem>
+            <ListItem variant="body2">Grad: {patient.city}</ListItem>
+            <ListItem variant="body2">
+              Porodicni ljekar: {patient.familyDoctor}
+            </ListItem>
+          </Box>
+        </CardContent>
+      </Card>
+      <List>
+        {medicalRecords.map((medicalRecord, index) => (
+          <Card sx={{ maxWidth: 600 }} key={index}>
+            <CardContent sx={{ textAlign: "left" }}>
+              <Box
+                sx={{
+                  display: "grid",
+                  gap: 1,
+                  gridTemplateColumns: "repeat(3,1fr)",
+                }}
+              >
+                <ListItem variant="body2">ICD: {medicalRecord.icd}</ListItem>
+                <ListItem variant="body2">
+                  Is Valid: {valid(medicalRecord.isValid)}
+                </ListItem>
+                <ListItem variant="body2">
+                  Signed: {medicalRecord.userId}
+                </ListItem>
+              </Box>
+            </CardContent>
+            <CardActions disableSpacing sx={{ justifyContent: "space-evenly" }}>
+              <IconButton
+                onClick={() => handleExpandClick(index * 3)}
+                sx={{
+                  color: expanded.includes(index * 3) ? "blue" : "black",
+                  fontSize: 16,
+                  textDecoration: expanded.includes(index * 3)
+                    ? "underline"
+                    : "",
+                }}
+              >
+                Biochemistry
+              </IconButton>
+              <IconButton
+                onClick={() => handleExpandClick(index * 3 + 1)}
+                aria-label="show more"
+                sx={{
+                  color: expanded.includes(index * 3 + 1) ? "blue" : "black",
+                  fontSize: 16,
+                  textDecoration: expanded.includes(index * 3 + 1)
+                    ? "underline"
+                    : "",
+                }}
+              >
+                Hematology
+              </IconButton>
+              <IconButton
+                onClick={() => handleExpandClick(index * 3 + 2)}
+                aria-label="show more"
+                sx={{
+                  color: expanded.includes(index * 3 + 2) ? "blue" : "black",
+                  fontSize: 16,
+                  textDecoration: expanded.includes(index * 3 + 2)
+                    ? "underline"
+                    : "",
+                }}
+              >
+                Urine
+              </IconButton>
+            </CardActions>
+            <Collapse
+              in={expanded.includes(index * 3)}
+              timeout="auto"
+              unmountOnExit
+            >
+              <CardContent>
+                <ReturnBiochemistryFunction broj={444} />
+              </CardContent>
+            </Collapse>
+            <Collapse
+              in={expanded.includes(index * 3 + 1)}
+              timeout="auto"
+              unmountOnExit
+            >
+              <CardContent>
+                {/* <ReturnHematologyFunction
+                  hematology={hematologies.find(
+                    (hematology) => hematology.id === medicalRecord.hematologyId
+                  )}
+                /> */}
+              </CardContent>
+            </Collapse>
+            <Collapse
+              in={expanded.includes(index * 3 + 2)}
+              timeout="auto"
+              unmountOnExit
+            >
+              <CardContent>
+                {/* <ReturnUrineFunction
+                  urine={urines.find(
+                    (urine) => urine.id === medicalRecord.urineId
+                  )}
+                /> */}
+              </CardContent>
+            </Collapse>
+          </Card>
+        ))}
+      </List>
     </Grid>
   );
+}
+// eslint-disable-next-line no-lone-blocks
+{
+  /* <TableContainer component={Paper} sx={{ maxWidth: 200, textAlign: "center" }}>
+  Biochemistry
+  <Table aria-label="simple table">
+    <TableBody>
+      <TableRow
+        sx={{
+          "&:last-child td, &:last-child th": { border: 0 },
+        }}
+      >
+        <TableCell component="th" scope="row" align="left">
+          s-creatinine
+        </TableCell>
+        <TableCell align="center">
+          {
+            biochemistries.find(
+              (biochemistry) => biochemistry.id === medicalRecord.biochemistryId
+            ).screatinine
+          }
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">s-glucose</TableCell>
+        <TableCell align="center">
+          {
+            biochemistries.find(
+              (biochemistry) => biochemistry.id === medicalRecord.biochemistryId
+            ).sglucose
+          }
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">s-urea</TableCell>
+        <TableCell align="center">
+          {
+            biochemistries.find(
+              (biochemistry) => biochemistry.id === medicalRecord.biochemistryId
+            ).surea
+          }
+        </TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</TableContainer>; */
 }
