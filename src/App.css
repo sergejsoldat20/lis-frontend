@@ -12,6 +12,12 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+/* *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins',sans-serif;
+} */
 
 .App-header {
   background-color: #282c34;
@@ -35,4 +41,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+abbr[title="required"] {
+  display: none;
 }
