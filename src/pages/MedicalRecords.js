@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import { Grid, ListItem, List } from "@mui/material";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import { Box } from "@mui/system";
 import CardActions from "@mui/material/CardActions";
@@ -16,7 +13,8 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-export default function SinglePatient() {
+
+export default function medicalRecords() {
   const [expanded, setExpanded] = useState([]);
   const [biochemistries, setBiochemistry] = useState([]);
   const [hematologies, setHematology] = useState([]);
@@ -33,38 +31,18 @@ export default function SinglePatient() {
       setExpanded(expandedCopy);
     }
   };
-  const { id } = useParams();
   const [medicalRecords, setMedicalRecords] = useState([]);
-  const [patient, setPatient] = useState({
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    jmbg: "",
-    gender: "",
-    address: "",
-    phone: "",
-    city: "",
-    familyDoctor: "",
-  });
 
   useEffect(() => {
-    loadPatient();
-    loadPatientRecords();
+    loadMedicalRecords();
     loadBiochemistry();
     loadHematology();
     loadUrine();
   }, []);
 
-  const loadPatientRecords = async () => {
-    const result = await axios.get(
-      `http://localhost:9000/patients/patient-records/${id}`
-    );
+  const loadMedicalRecords = async () => {
+    const result = await axios.get("http://localhost:9000/medical-records");
     setMedicalRecords(result.data);
-  };
-
-  const loadPatient = async () => {
-    const result = await axios.get(`http://localhost:9000/patients/${id}`);
-    setPatient(result.data);
   };
   const loadBiochemistry = async () => {
     const result = await axios.get(`http://localhost:9000/biochemistries`);
@@ -89,35 +67,10 @@ export default function SinglePatient() {
     else return false;
   }
   return (
-    <Grid container spacing={2}>
-      <Card sx={{ minWidth: 600, minHeight: 500, maxHeight: 500 }}>
-        <CardHeader title="Karton Pacijenta" />
-        <CardContent sx={{ textAlign: "left" }}>
-          <Box
-            sx={{
-              display: "grid",
-              gap: 1,
-              gridTemplateColumns: "repeat(1,1fr)",
-            }}
-          >
-            <ListItem variant="body2">Ime: {patient.firstName}</ListItem>
-            <ListItem variant="body2">Prezime: {patient.lastName}</ListItem>
-            <ListItem variant="body2">
-              Datum rodjenja: {patient.birthDate}
-            </ListItem>
-            <ListItem variant="body2">JMBG: {patient.jmbg}</ListItem>
-            <ListItem variant="body2">Adresa: {patient.address}</ListItem>
-            <ListItem variant="body2">Telefon: {patient.phone}</ListItem>
-            <ListItem variant="body2">Grad: {patient.city}</ListItem>
-            <ListItem variant="body2">
-              Porodicni ljekar: {patient.familyDoctor}
-            </ListItem>
-          </Box>
-        </CardContent>
-      </Card>
+    <Grid sx={{ align: "center" }}>
       <List>
         {medicalRecords.map((medicalRecord, index) => (
-          <Card sx={{ width: 1000 }} key={index}>
+          <Card sx={{ width: 2000 }} key={index}>
             <CardContent sx={{ textAlign: "left" }}>
               <Box
                 sx={{
