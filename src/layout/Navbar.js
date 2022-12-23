@@ -47,7 +47,9 @@ export default function Navbar() {
         <Menu.SubMenu style={{ float: "left" }} title="Medical Records">
           <Menu.ItemGroup>
             <Menu.Item key="setting:1">Add</Menu.Item>
-            <Menu.Item key="setting:2">View</Menu.Item>
+            <Menu.Item key="setting:2">
+              <Link to="/medical-records">View</Link>
+            </Menu.Item>
           </Menu.ItemGroup>
         </Menu.SubMenu>
         <Menu.Item style={{ float: "left" }}>
@@ -64,7 +66,9 @@ export default function Navbar() {
           }
         >
           <Menu.ItemGroup title="Menu">
-            <Menu.Item key="setting:1">Option 1</Menu.Item>
+            <Menu.Item key="setting:1">
+              <Link to="/add-user">Add User</Link>
+            </Menu.Item>
             <Menu.Item key="setting:2">
               Dark Mode <Switch onChange={onChange} />
             </Menu.Item>

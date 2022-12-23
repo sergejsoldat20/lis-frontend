@@ -10,6 +10,8 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ViewUrine from "./pages/ViewUrine";
 import MedicalRecords from "./pages/MedicalRecords";
+import AddUser from "./pages/AddUser";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<LogIn />} />
+          <Route exact path="/home" element={<Home />} />
           <Route exact path="/bio" element={<ViewBiochemistry />} />
           <Route exact path="/hema" element={<ViewHematology />} />
           <Route exact path="/urine" element={<ViewUrine />} />
@@ -25,6 +28,7 @@ function App() {
           <Route exact path="/single-patient/:id" element={<SinglePatient />} />
           <Route exact path="/add-patient" element={<AddPatient />} />
           <Route exact path="/medical-records" element={<MedicalRecords />} />
+          <Route exact path="/add-user" element={<AddUser />} />
         </Routes>
       </Router>
     </div>

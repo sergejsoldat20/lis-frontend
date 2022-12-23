@@ -45,3 +45,10 @@
 abbr[title="required"] {
   display: none;
 }
+*{
+  font-family: "Poppins",sans-serif;
+}
+.naslov{
+  font-size: x-large;
+  font-weight: 500;
+}
