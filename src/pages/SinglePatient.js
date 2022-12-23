@@ -90,7 +90,7 @@ export default function SinglePatient() {
   }
   return (
     <Grid container spacing={2}>
-      <Card sx={{ minWidth: 600, minHeight: 500, maxHeight: 500 }}>
+      <Card sx={{ width: 400, minHeight: 500, maxHeight: 500 }}>
         <CardHeader title="Karton Pacijenta" />
         <CardContent sx={{ textAlign: "left" }}>
           <Box
@@ -117,7 +117,7 @@ export default function SinglePatient() {
       </Card>
       <List>
         {medicalRecords.map((medicalRecord, index) => (
-          <Card sx={{ width: 1000 }} key={index}>
+          <Card sx={{ width: 1100 }} key={index}>
             <CardContent sx={{ textAlign: "left" }}>
               <Box
                 sx={{
@@ -194,7 +194,7 @@ export default function SinglePatient() {
                           // backgroundColor: "gray",
                         }}
                       >
-                        Biochemistry
+                        Biohemija
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
@@ -299,7 +299,7 @@ export default function SinglePatient() {
                           // backgroundColor: "gray",
                         }}
                       >
-                        Hematology
+                        Hematologija
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
@@ -416,7 +416,7 @@ export default function SinglePatient() {
                           // backgroundColor: "gray",
                         }}
                       >
-                        Urine
+                        Urin
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow

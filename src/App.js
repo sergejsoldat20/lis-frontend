@@ -7,10 +7,11 @@ import ViewHematology from "./pages/ViewHematology";
 import SinglePatient from "./pages/SinglePatient";
 import AddPatient from "./pages/AddPatient";
 import "./App.css";
+import AddMedicalRecord from "./pages/AddMedicalRecord";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ViewUrine from "./pages/ViewUrine";
 import MedicalRecords from "./pages/MedicalRecords";
-import AddMedicalRecord from "./pages/AddMedicalRecord";
+import AddUser from "./pages/AddUser";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/single-patient/:id" element={<SinglePatient />} />
           <Route exact path="/add-patient" element={<AddPatient />} />
           <Route exact path="/medical-records" element={<MedicalRecords />} />
+          <Route exact path="/add-user" element={<AddUser />} />
           <Route
             exact
             path="/add-medical-record"

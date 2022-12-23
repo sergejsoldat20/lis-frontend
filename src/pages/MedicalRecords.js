@@ -67,10 +67,16 @@ export default function medicalRecords() {
     else return false;
   }
   return (
-    <Grid sx={{ align: "center" }}>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
       <List>
         {medicalRecords.map((medicalRecord, index) => (
-          <Card sx={{ width: 2000 }} key={index}>
+          <Card sx={{ width: 1000 }} key={index}>
             <CardContent sx={{ textAlign: "left" }}>
               <Box
                 sx={{
@@ -147,7 +153,7 @@ export default function medicalRecords() {
                           // backgroundColor: "gray",
                         }}
                       >
-                        Biochemistry
+                        Biohemija
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
@@ -252,7 +258,7 @@ export default function medicalRecords() {
                           // backgroundColor: "gray",
                         }}
                       >
-                        Hematology
+                        Hematologija
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
@@ -369,7 +375,7 @@ export default function medicalRecords() {
                           // backgroundColor: "gray",
                         }}
                       >
-                        Urine
+                        Urin
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
