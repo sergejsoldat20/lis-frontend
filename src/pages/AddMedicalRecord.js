@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Select } from "antd";
 
 export default function AddMedicalRecord() {
+  /* const [biochemistryId, setBiochemistryId] = useState(null);
+  const [hematologyId, setHematologyId] = useState(null);
+  const [urineId, setUrineId] = useState(null); */
+  const [medicalRecord, setMedicalRecord] = useState({
+    icd: "",
+    isValid: "",
+    hematologyId: null,
+    urineId: null,
+    biochemistryId: null,
+    patientId: null,
+    userId: 1,
+  });
   const [biochemistry, setBiochemistry] = useState({
     surea: "",
     sglucose: "",
@@ -26,6 +39,17 @@ export default function AddMedicalRecord() {
     uproteins: "",
   });
 
+  const [patients, setPatients] = useState([]);
+
+  useEffect(() => {
+    loadPatients();
+  }, []);
+  const loadPatients = async () => {
+    const result = await axios.get("http://localhost:9000/patients");
+    setPatients(result.data);
+  };
+
+  const { icd, isValid } = medicalRecord;
   const { surea, sglucose, screatinine } = biochemistry;
   const { leukocytes, erythrocytes, hemaglobin, hematocrit, platelets } =
     hematology;
@@ -43,11 +67,25 @@ export default function AddMedicalRecord() {
     setUrine({ ...urine, [e.target.name]: e.target.value });
   };
 
+  const onMedicalRecordChange = (e) => {
+    setMedicalRecord({ ...medicalRecord, [e.target.name]: e.target.value });
+  };
+
+  const onMedicalRecordSubmit = async (e) => {
+    console.log(medicalRecord.data);
+    const response = await axios.post(
+      "http://localhost:9000/medical-records",
+      medicalRecord
+    );
+    console.log(response);
+  };
+
   const onBiochemistrySubmit = async (e) => {
     const response = await axios.post(
-      "http://localhost:9000/hematologies",
+      "http://localhost:9000/biochemistries",
       biochemistry
     );
+    medicalRecord.biochemistryId = response.data.id;
     console.log(response.data);
   };
 
@@ -56,11 +94,13 @@ export default function AddMedicalRecord() {
       "http://localhost:9000/hematologies",
       hematology
     );
+    medicalRecord.hematologyId = response.data.id;
     console.log(response.data);
   };
 
   const onUrineSubmit = async (e) => {
     const response = await axios.post("http://localhost:9000/urines", urine);
+    medicalRecord.urineId = response.data.id;
     console.log(response.data);
   };
 
@@ -324,6 +364,83 @@ export default function AddMedicalRecord() {
               </Form.Item>
               <Button type="primary" onClick={onUrineSubmit}>
                 Dodaj urin
+              </Button>
+            </Form>
+          </Item>
+        </Grid>
+
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          item
+          xs={4}
+        >
+          Nalaz
+          <Item>
+            <Form
+              name="basic"
+              labelCol={{
+                span: 10,
+              }}
+              wrapperCol={{
+                span: 16,
+              }}
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={(e) => onMedicalRecordSubmit(e)}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
+              requiredMark={false}
+            >
+              <Form.Item
+                label="ICD: "
+                rules={[
+                  {
+                    required: true,
+                    message: "Treba popuniti sva polja",
+                  },
+                ]}
+              >
+                <Input
+                  name="icd"
+                  value={icd}
+                  onChange={(e) => onMedicalRecordChange(e)}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Validan: "
+                rules={[
+                  {
+                    required: true,
+                    message: "Treba popuniti sva polja",
+                  },
+                ]}
+              >
+                <Input
+                  name="isValid"
+                  value={isValid}
+                  onChange={(e) => onMedicalRecordChange(e)}
+                />
+              </Form.Item>
+              <Form.Item label="Pacijent :">
+                <Select
+                  onChange={(selectedPatient) => {
+                    medicalRecord.patientId = selectedPatient;
+                  }}
+                >
+                  {patients.map((patient, index) => (
+                    <Select.Option key={index} value={patient.id}>
+                      {patient.firstName} {patient.lastName}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Button type="primary" onClick={onMedicalRecordSubmit}>
+                Dodaj nalaz
               </Button>
             </Form>
           </Item>
