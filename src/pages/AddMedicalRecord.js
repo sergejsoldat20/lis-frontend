@@ -7,20 +7,12 @@ import axios from "axios";
 import { Form, Input, Button } from "antd";
 
 export default function AddMedicalRecord() {
-  /* const [medicalRecord, setMedicalRecord] = useState({
-    icd: "",
-    isValid: "",
-    hematologyId: "",
-    urineId: "",
-    biochemistryId: "",
-    patientId: "",
-    userId: "",
-  }); */
   const [biochemistry, setBiochemistry] = useState({
     surea: "",
     sglucose: "",
     screatinine: "",
   });
+
   const [hematology, setHematology] = useState({
     leukocytes: "",
     erythrocytes: "",
@@ -38,15 +30,6 @@ export default function AddMedicalRecord() {
   const { leukocytes, erythrocytes, hemaglobin, hematocrit, platelets } =
     hematology;
   const { urineSediment, uproteins } = urine;
-  /* const {
-    icd,
-    isValid,
-    patientId,
-    userId,
-    biochemistryId,
-    hematologyId,
-    urineId,
-  } = medicalRecord; */
 
   const onBiochemistryChange = (e) => {
     setBiochemistry({ ...biochemistry, [e.target.name]: e.target.value });
@@ -61,24 +44,24 @@ export default function AddMedicalRecord() {
   };
 
   const onBiochemistrySubmit = async (e) => {
-    const result = await axios.post(
-      "http://localhost:9000/biochemistries",
+    const response = await axios.post(
+      "http://localhost:9000/hematologies",
       biochemistry
     );
-    console.log(result.data);
+    console.log(response.data);
   };
 
   const onHematologySubmit = async (e) => {
-    const result = await axios.post(
+    const response = await axios.post(
       "http://localhost:9000/hematologies",
       hematology
     );
-    console.log(result.data);
+    console.log(response.data);
   };
 
   const onUrineSubmit = async (e) => {
-    const result = await axios.post("http://localhost:9000/urines", hematology);
-    console.log(result.data);
+    const response = await axios.post("http://localhost:9000/urines", urine);
+    console.log(response.data);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -93,67 +76,6 @@ export default function AddMedicalRecord() {
     color: theme.palette.text.secondary,
   }));
 
-  function FormRow() {
-    return (
-      <React.Fragment>
-        <Grid item xs={12}>
-          <Item>
-            <Form
-              name="basic"
-              labelCol={{
-                span: 10,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={(e) => onBiochemistrySubmit(e)}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-              requiredMark={false}
-            >
-              <Form.Item
-                label="urine sediment: "
-                rules={[
-                  {
-                    required: true,
-                    message: "Treba popuniti sva polja",
-                  },
-                ]}
-              >
-                <Input
-                  name="urineSediment"
-                  value={urineSediment}
-                  onChange={(e) => onUrineChange(e)}
-                />
-              </Form.Item>
-              <Form.Item
-                label="u-proteins: "
-                rules={[
-                  {
-                    required: true,
-                    message: "Treba popuniti sva polja",
-                  },
-                ]}
-              >
-                <Input
-                  name="uproteins"
-                  value={uproteins}
-                  onChange={(e) => onUrineChange(e)}
-                />
-              </Form.Item>
-              <Button type="primary" onClick={onUrineSubmit}>
-                Dodaj urin
-              </Button>
-            </Form>
-          </Item>
-        </Grid>
-      </React.Fragment>
-    );
-  }
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
@@ -166,7 +88,7 @@ export default function AddMedicalRecord() {
           item
           xs={4}
         >
-          Biochemija
+          Biohemija
           <Item>
             <Form
               name="basic"
@@ -405,9 +327,6 @@ export default function AddMedicalRecord() {
               </Button>
             </Form>
           </Item>
-        </Grid>
-        <Grid>
-          <FormRow />
         </Grid>
       </Grid>
     </Box>
