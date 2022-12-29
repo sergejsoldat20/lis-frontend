@@ -19,6 +19,8 @@ export default function medicalRecords() {
   const [biochemistries, setBiochemistry] = useState([]);
   const [hematologies, setHematology] = useState([]);
   const [urines, setUrine] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [users, setUsers] = useState([]);
   const handleExpandClick = (broj) => {
     if (expanded.includes(broj)) {
       const expandedCopy = expanded.filter((element) => {
@@ -38,6 +40,8 @@ export default function medicalRecords() {
     loadBiochemistry();
     loadHematology();
     loadUrine();
+    loadPatients();
+    loadUsers();
   }, []);
 
   const loadMedicalRecords = async () => {
@@ -56,6 +60,14 @@ export default function medicalRecords() {
     const result = await axios.get(`http://localhost:9000/urines`);
     setUrine(result.data);
   };
+  const loadPatients = async () => {
+    const result = await axios.get(`http://localhost:9000/patients`);
+    setPatients(result.data);
+  };
+  const loadUsers = async () => {
+    const result = await axios.get(`http://localhost:9000/users`);
+    setUsers(result.data);
+  };
 
   const valid = (x) => {
     if (x === "true") return "validan";
@@ -65,6 +77,21 @@ export default function medicalRecords() {
     if (broj < a) return true;
     else if (broj > b) return true;
     else return false;
+  }
+  function returnFullNamePatient(id) {
+    for (const key in patients) {
+      if (patients[key].id === id) {
+        return `${patients[key].firstName} ${patients[key].lastName}`;
+      }
+    }
+  }
+  function returnFullNameUser(id) {
+    for (const key in users) {
+      if (users[key].id === id) {
+        return `${users[key].firstName} ${users[key].lastName}`;
+      }
+    }
+    return "";
   }
   return (
     <Grid
@@ -76,25 +103,35 @@ export default function medicalRecords() {
     >
       <List>
         {medicalRecords.map((medicalRecord, index) => (
-          <Card sx={{ width: 1000 }} key={index}>
+          <Card sx={{ width: 1200, borderBottom: 1 }} key={index}>
             <CardContent sx={{ textAlign: "left" }}>
               <Box
                 sx={{
                   display: "grid",
-                  gap: 1,
-                  gridTemplateColumns: "repeat(3,1fr)",
+                  gridTemplateColumns: "repeat(4,1fr)",
                 }}
               >
+                <ListItem variant="body2">
+                  Pacijent: {returnFullNamePatient(medicalRecord.patientId)}
+                </ListItem>
                 <ListItem variant="body2">ICD: {medicalRecord.icd}</ListItem>
                 <ListItem variant="body2">
                   Is Valid: {valid(medicalRecord.isValid)}
                 </ListItem>
                 <ListItem variant="body2">
-                  Validirao: {medicalRecord.userId}
+                  Validirao: {returnFullNameUser(medicalRecord.userId)}
                 </ListItem>
               </Box>
             </CardContent>
-            <CardActions disableSpacing sx={{ justifyContent: "space-evenly" }}>
+            <CardActions
+              disableSpacing
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                margin: 0,
+                spacing: 0,
+              }}
+            >
               <IconButton
                 onClick={() => handleExpandClick(index * 3)}
                 sx={{
@@ -103,6 +140,7 @@ export default function medicalRecords() {
                   textDecoration: expanded.includes(index * 3)
                     ? "underline"
                     : "",
+                  width: 180,
                 }}
               >
                 Biohemija
@@ -116,6 +154,7 @@ export default function medicalRecords() {
                   textDecoration: expanded.includes(index * 3 + 1)
                     ? "underline"
                     : "",
+                  width: 180,
                 }}
               >
                 Hematologija
@@ -129,12 +168,22 @@ export default function medicalRecords() {
                   textDecoration: expanded.includes(index * 3 + 2)
                     ? "underline"
                     : "",
+                  width: 180,
                 }}
               >
                 Urin
               </IconButton>
             </CardActions>
-            <Grid container spacing={0}>
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                paddingLeft: 2,
+                paddingRight: 2,
+              }}
+            >
               <Grid item xs>
                 <Collapse
                   in={expanded.includes(index * 3)}
@@ -148,12 +197,11 @@ export default function medicalRecords() {
                       <TableContainer
                         component={Paper}
                         sx={{
-                          width: 300,
                           textAlign: "center",
                           // backgroundColor: "gray",
                         }}
                       >
-                        Biohemija
+                        {/* Biohemija */}
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
@@ -253,12 +301,11 @@ export default function medicalRecords() {
                       <TableContainer
                         component={Paper}
                         sx={{
-                          width: 300,
                           textAlign: "center",
                           // backgroundColor: "gray",
                         }}
                       >
-                        Hematologija
+                        {/* Hematologija */}
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
@@ -370,12 +417,11 @@ export default function medicalRecords() {
                       <TableContainer
                         component={Paper}
                         sx={{
-                          width: 300,
                           textAlign: "center",
                           // backgroundColor: "gray",
                         }}
                       >
-                        Urin
+                        {/* Urin */}
                         <Table aria-label="simple table">
                           <TableBody>
                             <TableRow
