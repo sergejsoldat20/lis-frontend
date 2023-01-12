@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ViewUrine from "./pages/ViewUrine";
 import MedicalRecords from "./pages/MedicalRecords";
 import AddUser from "./pages/AddUser";
-
+import PrivateRoutes from "./utils/PrivateRoutes";
 function App() {
   return (
     <div className="App">
@@ -20,19 +20,25 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<LogIn />} />
-          <Route exact path="/bio" element={<ViewBiochemistry />} />
-          <Route exact path="/hema" element={<ViewHematology />} />
-          <Route exact path="/urine" element={<ViewUrine />} />
-          <Route exact path="/patients" element={<Patients />} />
-          <Route exact path="/single-patient/:id" element={<SinglePatient />} />
-          <Route exact path="/add-patient" element={<AddPatient />} />
-          <Route exact path="/medical-records" element={<MedicalRecords />} />
-          <Route exact path="/add-user" element={<AddUser />} />
-          <Route
-            exact
-            path="/add-medical-record"
-            element={<AddMedicalRecord />}
-          />
+          <Route element={<PrivateRoutes />}>
+            <Route exact path="/bio" element={<ViewBiochemistry />} />
+            <Route exact path="/hema" element={<ViewHematology />} />
+            <Route exact path="/urine" element={<ViewUrine />} />
+            <Route exact path="/patients" element={<Patients />} />
+            <Route
+              exact
+              path="/single-patient/:id"
+              element={<SinglePatient />}
+            />
+            <Route exact path="/add-patient" element={<AddPatient />} />
+            <Route exact path="/medical-records" element={<MedicalRecords />} />
+            <Route exact path="/add-user" element={<AddUser />} />
+            <Route
+              exact
+              path="/add-medical-record"
+              element={<AddMedicalRecord />}
+            />
+          </Route>
         </Routes>
       </Router>
     </div>

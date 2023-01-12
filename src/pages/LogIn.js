@@ -1,11 +1,26 @@
 import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { GlobalStyles } from "@mui/system";
 import { Grid } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function LogIn() {
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const navigate = useNavigate();
+  const onFinish = async (values) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:9000/api/auth/login",
+        values
+      );
+      console.log(response.data.accessToken);
+      const jwt = response.data.accessToken;
+      localStorage.setItem("jwt", jwt);
+      message.success("Uspjesno ste se ulogovali");
+      navigate("/medical-records");
+    } catch (error) {
+      message.error("Niste se uspjesno ulogovali");
+    }
   };
 
   return (
@@ -17,6 +32,8 @@ export default function LogIn() {
       justifyContent="center"
     >
       <div style={{ height: 200 }}></div>
+      <h1>Laboratorijski informacioni sistem</h1>
+      <div style={{ height: 50 }}></div>
       <Form
         name="normal_login"
         className="login-form"
@@ -43,14 +60,7 @@ export default function LogIn() {
             placeholder="Password"
           />
         </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-        </Form.Item>
+
         <Form.Item>
           <Button
             type="primary"
@@ -59,7 +69,6 @@ export default function LogIn() {
           >
             Log in
           </Button>
-          Or <a href="">register now!</a>
         </Form.Item>
       </Form>
     </Grid>

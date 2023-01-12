@@ -26,8 +26,15 @@ export default function ViewBiochemistry(id) {
     loadBiochemistry();
   });
   const loadBiochemistry = async () => {
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
     const result = await axios.get(
-      `http://localhost:9000/biochemistries/${id}`
+      `http://localhost:9000/biochemistries/${id}`,
+      config
     );
     setBiochemistry(result.data);
   };

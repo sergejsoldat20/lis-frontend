@@ -20,7 +20,16 @@ export default function AddUser() {
     loadUsernames();
   }, []);
   const loadUsernames = async () => {
-    const result = await axios.get(`http://localhost:9000/users/usernames`);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get(
+      `http://localhost:9000/users/usernames`,
+      config
+    );
     setUsernames(result.data);
   };
   const { username, firstName, lastName, specialization, password, role } =
@@ -43,7 +52,13 @@ export default function AddUser() {
         return;
       }
     }
-    await axios.post("http://localhost:9000/users", user);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    await axios.post("http://localhost:9000/users", user, config);
     console.log(usernames);
     navigate("/home");
   };

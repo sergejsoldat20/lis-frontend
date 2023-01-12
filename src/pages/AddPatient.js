@@ -51,7 +51,13 @@ export default function AddPatient() {
         return;
       }
     }
-    await axios.post("http://localhost:9000/patients", patient);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    await axios.post("http://localhost:9000/patients", patient, config);
     navigate("/home");
   };
   const onFinishFailed = (errorInfo) => {

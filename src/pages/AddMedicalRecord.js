@@ -45,7 +45,13 @@ export default function AddMedicalRecord() {
     loadPatients();
   }, []);
   const loadPatients = async () => {
-    const result = await axios.get("http://localhost:9000/patients");
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get("http://localhost:9000/patients", config);
     setPatients(result.data);
   };
 
@@ -73,33 +79,64 @@ export default function AddMedicalRecord() {
 
   const onMedicalRecordSubmit = async (e) => {
     console.log(medicalRecord.data);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
     const response = await axios.post(
       "http://localhost:9000/medical-records",
-      medicalRecord
+      medicalRecord,
+      config
     );
     console.log(response);
   };
 
   const onBiochemistrySubmit = async (e) => {
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
     const response = await axios.post(
       "http://localhost:9000/biochemistries",
-      biochemistry
+      biochemistry,
+      config
     );
     medicalRecord.biochemistryId = response.data.id;
     console.log(response.data);
   };
 
   const onHematologySubmit = async (e) => {
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
     const response = await axios.post(
       "http://localhost:9000/hematologies",
-      hematology
+      hematology,
+      config
     );
     medicalRecord.hematologyId = response.data.id;
     console.log(response.data);
   };
 
   const onUrineSubmit = async (e) => {
-    const response = await axios.post("http://localhost:9000/urines", urine);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const response = await axios.post(
+      "http://localhost:9000/urines",
+      urine,
+      config
+    );
     medicalRecord.urineId = response.data.id;
     console.log(response.data);
   };

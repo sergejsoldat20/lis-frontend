@@ -45,27 +45,72 @@ export default function medicalRecords() {
   }, []);
 
   const loadMedicalRecords = async () => {
-    const result = await axios.get("http://localhost:9000/medical-records");
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get(
+      "http://localhost:9000/medical-records",
+      config
+    );
     setMedicalRecords(result.data);
   };
   const loadBiochemistry = async () => {
-    const result = await axios.get(`http://localhost:9000/biochemistries`);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get(
+      `http://localhost:9000/biochemistries`,
+      config
+    );
     setBiochemistry(result.data);
   };
   const loadHematology = async () => {
-    const result = await axios.get(`http://localhost:9000/hematologies`);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get(
+      `http://localhost:9000/hematologies`,
+      config
+    );
     setHematology(result.data);
   };
   const loadUrine = async () => {
-    const result = await axios.get(`http://localhost:9000/urines`);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get(`http://localhost:9000/urines`, config);
     setUrine(result.data);
   };
   const loadPatients = async () => {
-    const result = await axios.get(`http://localhost:9000/patients`);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get(`http://localhost:9000/patients`, config);
     setPatients(result.data);
   };
   const loadUsers = async () => {
-    const result = await axios.get(`http://localhost:9000/users`);
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get(`http://localhost:9000/users`, config);
     setUsers(result.data);
   };
 

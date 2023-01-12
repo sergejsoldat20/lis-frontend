@@ -15,8 +15,15 @@ export default function ViewBiochemistry() {
   useEffect(() => {
     loadPatients();
   }, []);
+
   const loadPatients = async () => {
-    const result = await axios.get("http://localhost:9000/patients");
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.get("http://localhost:9000/patients", config);
     setPatients(result.data);
   };
 
