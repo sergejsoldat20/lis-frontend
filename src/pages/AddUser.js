@@ -58,7 +58,7 @@ export default function AddUser() {
         Authorization: `Bearer ${jwt}`,
       },
     };
-    await axios.post("http://localhost:9000/users", user, config);
+    await axios.post("http://localhost:9000/api/auth/register", user, config);
     console.log(usernames);
     navigate("/users");
   };
@@ -67,13 +67,11 @@ export default function AddUser() {
     console.log("Failed:", errorInfo);
   };
   return (
-    <Grid alignItems="center" justifyContent="center"
-      className="text-center" >
+    <Grid alignItems="center" justifyContent="center" className="text-center">
       <div className="container">
         <div className="rom">
           <div className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow">
-            <h2 className="text-center m-4">
-              Registracija korisnika:</h2>
+            <h2 className="text-center m-4">Registracija korisnika:</h2>
 
             <div className="card">
               <div className="card-header">

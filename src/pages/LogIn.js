@@ -5,7 +5,6 @@ import { GlobalStyles } from "@mui/system";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { grey } from "@mui/material/colors";
 export default function LogIn() {
   const navigate = useNavigate();
   const onFinish = async (values) => {
@@ -33,8 +32,10 @@ export default function LogIn() {
       justifyContent="center"
     >
       <div style={{ height: 100 }}></div>
-      <div className="col-md-6  border ronder p-4 mt-2 shadow"
-        style={{ backgroundColor: " #D1D1D1" }}>
+      <div
+        className="col-md-6  border ronder p-4 mt-2 shadow"
+        style={{ backgroundColor: " #D1D1D1" }}
+      >
         <h3 className="text-center m-4">LABORATORIJSKI INFORMACIONI SISTEM</h3>
       </div>
       <div style={{ height: 50 }}></div>
@@ -48,7 +49,7 @@ export default function LogIn() {
           <GlobalStyles styles={{ Form: { width: 100, height: 150 } }} />
           <Form.Item
             style={{
-              width: '100%',
+              width: "100%",
             }}
             name="username"
             rules={[{ required: true, message: "Please input your Username!" }]}
@@ -60,7 +61,7 @@ export default function LogIn() {
           </Form.Item>
           <Form.Item
             style={{
-              width: '100%',
+              width: "100%",
             }}
             name="password"
             rules={[{ required: true, message: "Please input your Password!" }]}
@@ -77,14 +78,12 @@ export default function LogIn() {
               type="primary"
               htmlType="submit"
               className="login-form-button md-4"
-
             >
               Log in
-
             </Button>
           </Form.Item>
         </Form>
       </div>
-    </Grid >
+    </Grid>
   );
 }

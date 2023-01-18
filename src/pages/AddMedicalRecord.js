@@ -159,8 +159,7 @@ export default function AddMedicalRecord() {
         <div className="container">
           <div className="rom">
             <div className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow">
-              <h2 className="text-center m-4">
-                Dodaj nalaz:</h2>
+              <h2 className="text-center m-4">Dodaj nalaz:</h2>
 
               <div className="card">
                 <div className="card-header">
@@ -235,7 +234,7 @@ export default function AddMedicalRecord() {
                     </Item>
                   </Grid>
                   <Grid>
-                    < b>HEMATOLOGIJA</b>
+                    <b>HEMATOLOGIJA</b>
                     <Item>
                       <Form
                         name="basic"

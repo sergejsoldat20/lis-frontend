@@ -13,7 +13,7 @@ import ViewUrine from "./pages/ViewUrine";
 import MedicalRecords from "./pages/MedicalRecords";
 import AddUser from "./pages/AddUser";
 import PrivateRoutes from "./utils/PrivateRoutes";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import UsersView from "./pages/UsersView";
 import UserView from "./pages/UserView";
 import Profile from "./pages/Profile";
