@@ -60,110 +60,123 @@ export default function AddUser() {
     };
     await axios.post("http://localhost:9000/users", user, config);
     console.log(usernames);
-    navigate("/home");
+    navigate("/users");
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <Grid alignItems="center" justifyContent="center">
-      <p className="naslov">Registracija korisnika</p>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        paddingRight={12}
-      >
-        <Form
-          name="basic"
-          labelCol={{
-            span: 10,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={(e) => onFinish(e)}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-          requiredMark={false}
-        >
-          <Form.Item label="Ime: ">
-            <Input
-              name="firstName"
-              value={firstName}
-              onChange={(e) => onInputChange(e)}
-            />
-          </Form.Item>
-          <Form.Item label="Prezime: ">
-            <Input
-              name="lastName"
-              value={lastName}
-              onChange={(e) => onInputChange(e)}
-            />
-          </Form.Item>
-          <Form.Item label="Specijalizacija: ">
-            <Input
-              name="specialization"
-              value={specialization}
-              onChange={(e) => onInputChange(e)}
-            />
-          </Form.Item>
-          <Form.Item label="Uloga :">
-            <Select
-              style={{
-                width: 120,
-              }}
-              onChange={(selectedRole) => {
-                user.role = selectedRole;
-              }}
-              options={[
-                {
-                  value: "Ljekar",
-                  label: "Ljekar",
-                },
-                {
-                  value: "Tehnicar",
-                  label: "Tehnicar",
-                },
-                {
-                  value: "Admin",
-                  label: "Admin",
-                },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item label="Korisnicko ime :">
-            <Input
-              name="username"
-              value={username}
-              onChange={(e) => onInputChange(e)}
-            />
-          </Form.Item>
-          <Form.Item label="Lozinka: ">
-            <Input
-              name="password"
-              value={password}
-              onChange={(e) => onInputChange(e)}
-            />
-          </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <Button type="primary" onClick={onFinish}>
-              Registruj
-            </Button>
-          </Form.Item>
-        </Form>
-      </Grid>
+    <Grid alignItems="center" justifyContent="center"
+      className="text-center" >
+      <div className="container">
+        <div className="rom">
+          <div className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow">
+            <h2 className="text-center m-4">
+              Registracija korisnika:</h2>
+
+            <div className="card">
+              <div className="card-header">
+                <Grid
+                  container
+                  spacing={0}
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  paddingRight={12}
+                >
+                  <Form
+                    name="basic"
+                    labelCol={{
+                      span: 10,
+                    }}
+                    wrapperCol={{
+                      span: 16,
+                    }}
+                    initialValues={{
+                      remember: true,
+                    }}
+                    onFinish={(e) => onFinish(e)}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                    requiredMark={false}
+                  >
+                    <Form.Item label="Ime: ">
+                      <Input
+                        name="firstName"
+                        value={firstName}
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </Form.Item>
+                    <Form.Item label="Prezime: ">
+                      <Input
+                        name="lastName"
+                        value={lastName}
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </Form.Item>
+                    <Form.Item label="Specijalizacija: ">
+                      <Input
+                        name="specialization"
+                        value={specialization}
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </Form.Item>
+                    <Form.Item label="Uloga :">
+                      <Select
+                        style={{
+                          width: 120,
+                        }}
+                        onChange={(selectedRole) => {
+                          user.role = selectedRole;
+                        }}
+                        options={[
+                          {
+                            value: "Ljekar",
+                            label: "Ljekar",
+                          },
+                          {
+                            value: "Tehnicar",
+                            label: "Tehnicar",
+                          },
+                          {
+                            value: "Admin",
+                            label: "Admin",
+                          },
+                        ]}
+                      />
+                    </Form.Item>
+                    <Form.Item label="Korisnicko ime :">
+                      <Input
+                        name="username"
+                        value={username}
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </Form.Item>
+                    <Form.Item label="Lozinka: ">
+                      <Input
+                        name="password"
+                        value={password}
+                        onChange={(e) => onInputChange(e)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                      }}
+                    >
+                      <Button type="primary" onClick={onFinish}>
+                        Registruj
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </Grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </Grid>
   );
 }

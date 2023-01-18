@@ -33,13 +33,8 @@ export default function Navbar() {
         onClick={onClick}
         selectedKeys={[current]}
         mode="horizontal"
-        style={{ display: "block", fontSize: 21 }}
+        style={{ display: "block", fontSize: 29 }}
       >
-        <Menu.Item style={{ float: "left" }}>
-          <Link class="btn btn-outline-light" to={"/home"}>
-            LIS
-          </Link>
-        </Menu.Item>
         <Menu.SubMenu style={{ float: "left" }} title="Pacijenti">
           <Menu.ItemGroup>
             <Menu.Item key="setting:1">
@@ -61,9 +56,7 @@ export default function Navbar() {
           </Menu.ItemGroup>
         </Menu.SubMenu>
         <Menu.Item style={{ float: "left" }}>
-          <Link className="btn btn-outline-light" to="/home">
-            Info
-          </Link>
+          <Link to="/profile">Profil</Link>
         </Menu.Item>
         <Menu.SubMenu
           style={{ float: "right" }}
@@ -78,6 +71,9 @@ export default function Navbar() {
               <Link to="/add-user">Dodaj korisnika</Link>
             </Menu.Item>
             <Menu.Item key="setting:2">
+              <Link to="/users">Pregled korisnika</Link>
+            </Menu.Item>
+            <Menu.Item key="setting:3">
               Dark Mode <Switch onChange={onChange} />
             </Menu.Item>
             <Menu.Item onClick={logout}>Log out</Menu.Item>

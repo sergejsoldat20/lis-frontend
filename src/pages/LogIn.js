@@ -5,6 +5,7 @@ import { GlobalStyles } from "@mui/system";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { grey } from "@mui/material/colors";
 export default function LogIn() {
   const navigate = useNavigate();
   const onFinish = async (values) => {
@@ -31,46 +32,59 @@ export default function LogIn() {
       alignItems="center"
       justifyContent="center"
     >
-      <div style={{ height: 200 }}></div>
-      <h1>Laboratorijski informacioni sistem</h1>
+      <div style={{ height: 100 }}></div>
+      <div className="col-md-6  border ronder p-4 mt-2 shadow"
+        style={{ backgroundColor: " #D1D1D1" }}>
+        <h3 className="text-center m-4">LABORATORIJSKI INFORMACIONI SISTEM</h3>
+      </div>
       <div style={{ height: 50 }}></div>
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-      >
-        <GlobalStyles styles={{ Form: { width: 300, height: 700 } }} />
-        <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input your Username!" }]}
+      <div className="col-md-4 border rounder p-4 mt-2 shadow">
+        <Form
+          name="normal_login"
+          className="login-form col-md-12 text-center p-1"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
         >
-          <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
-          />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: "Please input your Password!" }]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
+          <GlobalStyles styles={{ Form: { width: 100, height: 150 } }} />
+          <Form.Item
+            style={{
+              width: '100%',
+            }}
+            name="username"
+            rules={[{ required: true, message: "Please input your Username!" }]}
           >
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
-    </Grid>
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Username"
+            />
+          </Form.Item>
+          <Form.Item
+            style={{
+              width: '100%',
+            }}
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button md-4"
+
+            >
+              Log in
+
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </Grid >
   );
 }

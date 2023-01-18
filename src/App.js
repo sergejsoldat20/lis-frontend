@@ -13,6 +13,11 @@ import ViewUrine from "./pages/ViewUrine";
 import MedicalRecords from "./pages/MedicalRecords";
 import AddUser from "./pages/AddUser";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import UsersView from "./pages/UsersView";
+import UserView from "./pages/UserView";
+import Profile from "./pages/Profile";
+
 function App() {
   return (
     <div className="App">
@@ -39,6 +44,9 @@ function App() {
               element={<AddMedicalRecord />}
             />
           </Route>
+          <Route exact path="/users" element={<UsersView />} />
+          <Route exact path="/users/:id" element={<UserView />} />
+          <Route exact path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </div>
