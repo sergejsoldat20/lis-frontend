@@ -53,4 +53,12 @@ function App() {
   );
 }
 
+/*
+Admin treba da ima sve privilegije i da pristupa svemu,
+doktor moze da pristupa svemu osim pregleda usera i dodavanja usera, to mora da bude
+adminov posao, tehnicar moze da pristupa svemu kao i doktor samo ne smije da ima mogucnost da
+validira nalaze, tu validaciju cemo dodati kasnije, treba da bude button na svakom nalazu
+da se validira
+*/
+
 export default App;
