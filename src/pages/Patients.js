@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 export default function ViewBiochemistry() {
   const [patients, setPatients] = useState([]);
@@ -27,55 +19,39 @@ export default function ViewBiochemistry() {
     setPatients(result.data);
   };
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.dark,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>#</StyledTableCell>
-            <StyledTableCell align="center">Ime</StyledTableCell>
-            <StyledTableCell align="center">Prezime</StyledTableCell>
-            <StyledTableCell align="center">Info</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {patients.map((patient, index) => (
-            <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">
-                {index + 1}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {patient.firstName}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {patient.lastName}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                <Link to={`/single-patient/${patient.id}`}>Karton</Link>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className="container">
+      <div className="py-4">
+        <table className="table border shadow">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col"> Ime</th>
+              <th scope="col">Prezime</th>
+              <th scope="col">Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            {patients.map((patient, index) => (
+              <tr key={index}>
+                <th scope="row" key={index}>
+                  {index + 1}
+                </th>
+                <td>{patient.firstName}</td>
+                <td>{patient.lastName}</td>
+                <td>
+                  <Link
+                    className="btn btn-outline-primary mx-2"
+                    to={`/single-patient/${patient.id}`}
+                  >
+                    Karton
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }

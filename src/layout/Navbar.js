@@ -33,7 +33,14 @@ export default function Navbar() {
         onClick={onClick}
         selectedKeys={[current]}
         mode="horizontal"
-        style={{ display: "block", fontSize: 29 }}
+        style={{
+          display: "block",
+          fontSize: 25,
+          background: " #D1D1D1",
+          opacity: "0.8",
+          margin: "25px",
+          padding: "16px",
+        }}
       >
         <Menu.SubMenu style={{ float: "left" }} title="Pacijenti">
           <Menu.ItemGroup>
@@ -48,7 +55,9 @@ export default function Navbar() {
         <Menu.SubMenu style={{ float: "left" }} title="Nalazi">
           <Menu.ItemGroup>
             <Menu.Item key="setting:1">
-              <Link to="/add-medical-record">Dodaj</Link>
+              <Link style={{}} to="/add-medical-record">
+                Dodaj
+              </Link>
             </Menu.Item>
             <Menu.Item key="setting:2">
               <Link to="/medical-records">Pregled</Link>
