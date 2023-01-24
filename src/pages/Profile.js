@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 export default function Profile() {
   const [user, setUser] = useState({
@@ -9,8 +9,6 @@ export default function Profile() {
     specialization: "",
     role: "",
   });
-
-  const { id } = useParams();
 
   useEffect(() => {
     loadUser();
@@ -23,7 +21,10 @@ export default function Profile() {
         Authorization: `Bearer ${jwt}`,
       },
     };
-    const result = await axios.get(`http://localhost:9000/users/${id}`, config);
+    const result = await axios.get(
+      `http://localhost:9000/users/currentUser`,
+      config
+    );
     console.log(result.data);
     setUser(result.data);
   };
@@ -37,23 +38,23 @@ export default function Profile() {
             <div className="card-header">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
-                  <b>Ime:</b>
+                  <b>Ime: </b>
                   {user.firstName}
                 </li>
                 <li className="list-group-item">
-                  <b>Prezime:</b>
+                  <b>Prezime: </b>
                   {user.lastName}
                 </li>
                 <li className="list-group-item">
-                  <b>Korisnicko ime:</b>
+                  <b>Korisnicko ime: </b>
                   {user.username}
                 </li>
                 <li className="list-group-item">
-                  <b>Specijalijacija:</b>
+                  <b>Specijalijacija: </b>
                   {user.specialization}
                 </li>
                 <li className="list-group-item">
-                  <b>Uloga:</b>
+                  <b>Uloga: </b>
                   {user.role}
                 </li>
               </ul>

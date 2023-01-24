@@ -35,14 +35,18 @@ export default function medicalRecords() {
   };
   const [medicalRecords, setMedicalRecords] = useState([]);
 
-  useEffect(() => {
-    loadMedicalRecords();
-    loadBiochemistry();
-    loadHematology();
-    loadUrine();
-    loadPatients();
-    loadUsers();
-  }, []);
+  useEffect(
+    () => {
+      loadMedicalRecords();
+      loadBiochemistry();
+      loadHematology();
+      loadUrine();
+      loadPatients();
+      loadUsers();
+    },
+    [],
+    medicalRecords
+  );
 
   const loadMedicalRecords = async () => {
     const jwt = localStorage.getItem("jwt");

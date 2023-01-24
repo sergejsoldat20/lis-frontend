@@ -64,9 +64,13 @@ export default function Navbar() {
             </Menu.Item>
           </Menu.ItemGroup>
         </Menu.SubMenu>
-        <Menu.Item style={{ float: "left" }}>
-          <Link to="/profile">Profil</Link>
-        </Menu.Item>
+        <Menu.SubMenu style={{ float: "left" }} title="Profil">
+          <Menu.ItemGroup>
+            <Menu.Item style={{ float: "left" }}>
+              <Link to="/profile">Profil</Link>
+            </Menu.Item>
+          </Menu.ItemGroup>
+        </Menu.SubMenu>
         <Menu.SubMenu
           style={{ float: "right" }}
           title={
