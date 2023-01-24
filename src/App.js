@@ -46,7 +46,7 @@ function App() {
           </Route>
           <Route exact path="/users" element={<UsersView />} />
           <Route exact path="/users/:id" element={<UserView />} />
-          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/profile/:id" element={<Profile />} />
         </Routes>
       </Router>
     </div>

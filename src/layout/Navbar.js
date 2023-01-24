@@ -38,10 +38,25 @@ export default function Navbar() {
           fontSize: 25,
           background: " #D1D1D1",
           opacity: "0.8",
-          margin: "25px",
-          padding: "16px",
+          margin: "20px",
+          padding: "12px",
         }}
       >
+        <Menu.Item
+          style={{ float: "left", fontSize: 35, textDecoration: "none" }}
+        >
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "blue",
+              fontFamily: "Sans-Serif",
+              fontStyle: "italic",
+            }}
+            to="/medical-records"
+          >
+            LIS
+          </Link>
+        </Menu.Item>
         <Menu.SubMenu style={{ float: "left" }} title="Pacijenti">
           <Menu.ItemGroup>
             <Menu.Item key="setting:1">
@@ -65,7 +80,9 @@ export default function Navbar() {
           </Menu.ItemGroup>
         </Menu.SubMenu>
         <Menu.Item style={{ float: "left" }}>
-          <Link to="/profile">Profil</Link>
+          <Link style={{ textDecoration: "none" }} to="/profile">
+            Profil
+          </Link>
         </Menu.Item>
         <Menu.SubMenu
           style={{ float: "right" }}
