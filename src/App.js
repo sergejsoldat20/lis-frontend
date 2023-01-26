@@ -17,7 +17,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import UsersView from "./pages/UsersView";
 import UserView from "./pages/UserView";
 import Profile from "./pages/Profile";
-import RecordsView from "./pages/RecordsView";
+import ReferentValues from "./pages/ReferentValues";
 
 function App() {
   return (
@@ -44,11 +44,15 @@ function App() {
               path="/add-medical-record"
               element={<AddMedicalRecord />}
             />
+            <Route exact path="/users" element={<UsersView />} />
+            <Route exact path="/users/:id" element={<UserView />} />
+            <Route exact path="/profile" element={<Profile />} />
+            <Route
+              exact
+              paht="/definition-of-values"
+              element={<ReferentValues />}
+            />
           </Route>
-          <Route exact path="/users" element={<UsersView />} />
-          <Route exact path="/users/:id" element={<UserView />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact paht="/change" element={<RecordsView />} />
         </Routes>
       </Router>
     </div>

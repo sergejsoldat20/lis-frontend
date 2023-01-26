@@ -5,12 +5,18 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function AddMedicalRecord() {
   /* const [biochemistryId, setBiochemistryId] = useState(null);
   const [hematologyId, setHematologyId] = useState(null);
   const [urineId, setUrineId] = useState(null); */
+  const navigate = useNavigate();
+  const [bioIsLocked, setBioIsLocked] = useState(false);
+  const [hemIsLocked, setHemIsLocked] = useState(false);
+  const [uriIsLocked, setUriIsLocked] = useState(false);
+
   const [medicalRecord, setMedicalRecord] = useState({
     icd: "",
     isValid: "",
@@ -90,7 +96,13 @@ export default function AddMedicalRecord() {
       medicalRecord,
       config
     );
-    console.log(response);
+    if (response.status === 200) {
+      message.success("Uspjesno ste dodali nalaz!");
+      navigate("/medical-records");
+    } else {
+      message.error("Niste dodali nalaz");
+      navigate("/");
+    }
   };
 
   const onBiochemistrySubmit = async (e) => {
@@ -105,8 +117,15 @@ export default function AddMedicalRecord() {
       biochemistry,
       config
     );
-    medicalRecord.biochemistryId = response.data.id;
-    console.log(response.data);
+    if (response.status === 201) {
+      medicalRecord.biochemistryId = response.data.id;
+      message.success("Uspjesno ste dodali biohemiju u nalaz.");
+      if (!bioIsLocked) {
+        // Perform the button's intended action
+        console.log("Button clicked!");
+        setBioIsLocked(true);
+      }
+    }
   };
 
   const onHematologySubmit = async (e) => {
@@ -121,8 +140,15 @@ export default function AddMedicalRecord() {
       hematology,
       config
     );
-    medicalRecord.hematologyId = response.data.id;
-    console.log(response.data);
+    if (response.status === 201) {
+      medicalRecord.hematologyId = response.data.id;
+      message.success("Uspjesno ste dodali hematologiju u nalaz.");
+      if (!hemIsLocked) {
+        // Perform the button's intended action
+        console.log("Button clicked!");
+        setHemIsLocked(true);
+      }
+    }
   };
 
   const onUrineSubmit = async (e) => {
@@ -137,8 +163,15 @@ export default function AddMedicalRecord() {
       urine,
       config
     );
-    medicalRecord.urineId = response.data.id;
-    console.log(response.data);
+    if (response.status === 201) {
+      medicalRecord.urineId = response.data.id;
+      message.success("Uspjesno ste dodali urin u nalaz.");
+      if (!uriIsLocked) {
+        // Perform the button's intended action
+        console.log("Button clicked!");
+        setUriIsLocked(true);
+      }
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -227,14 +260,19 @@ export default function AddMedicalRecord() {
                             onChange={(e) => onBiochemistryChange(e)}
                           />
                         </Form.Item>
-                        <Button type="primary" onClick={onBiochemistrySubmit}>
+                        <Button
+                          type="primary"
+                          onClick={onBiochemistrySubmit}
+                          disabled={bioIsLocked}
+                          style={{ width: "150px" }}
+                        >
                           Dodaj biohemiju
                         </Button>
                       </Form>
                     </Item>
                   </Grid>
                   <Grid>
-                    <b>HEMATOLOGIJA</b>
+                    <b>Hematologija</b>
                     <Item>
                       <Form
                         name="basic"
@@ -327,14 +365,19 @@ export default function AddMedicalRecord() {
                             onChange={(e) => onHematologyChange(e)}
                           />
                         </Form.Item>
-                        <Button type="primary" onClick={onHematologySubmit}>
+                        <Button
+                          type="primary"
+                          onClick={onHematologySubmit}
+                          disabled={hemIsLocked}
+                          style={{ width: "150px" }}
+                        >
                           Dodaj hematologiju
                         </Button>
                       </Form>
                     </Item>
                   </Grid>
                   <Grid>
-                    <b>URIN</b>
+                    <b>Urin</b>
                     <Item>
                       <Form
                         name="basic"
@@ -382,7 +425,12 @@ export default function AddMedicalRecord() {
                             onChange={(e) => onUrineChange(e)}
                           />
                         </Form.Item>
-                        <Button type="primary" onClick={onUrineSubmit}>
+                        <Button
+                          type="primary"
+                          onClick={onUrineSubmit}
+                          disabled={uriIsLocked}
+                          style={{ width: "150px" }}
+                        >
                           Dodaj urin
                         </Button>
                       </Form>
@@ -451,7 +499,15 @@ export default function AddMedicalRecord() {
                             ))}
                           </Select>
                         </Form.Item>
-                        <Button type="primary" onClick={onMedicalRecordSubmit}>
+                        <Button
+                          type="primary"
+                          onClick={onMedicalRecordSubmit}
+                          style={{
+                            width: "150px",
+                            backgroundColor: "green",
+                            color: "white",
+                          }}
+                        >
                           Dodaj nalaz
                         </Button>
                       </Form>

@@ -22,7 +22,7 @@ export default function Profile() {
       },
     };
     const result = await axios.get(
-      `http://localhost:9000/users/currentUser`,
+      `http://localhost:9000/users/current-user`,
       config
     );
     console.log(result.data);

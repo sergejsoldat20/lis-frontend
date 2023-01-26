@@ -13,40 +13,66 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Button, Row, Col, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function medicalRecords() {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState([]);
   const [biochemistries, setBiochemistry] = useState([]);
   const [hematologies, setHematology] = useState([]);
   const [urines, setUrine] = useState([]);
   const [patients, setPatients] = useState([]);
-  const [users, setUsers] = useState([]);
-  const handleExpandClick = (broj) => {
-    if (expanded.includes(broj)) {
+  const handleExpandClick = (number) => {
+    if (expanded.includes(number)) {
       const expandedCopy = expanded.filter((element) => {
-        return element !== broj;
+        return element !== number;
       });
       setExpanded(expandedCopy);
     } else {
       const expandedCopy = [...expanded];
-      expandedCopy.push(broj);
+      expandedCopy.push(number);
       setExpanded(expandedCopy);
     }
   };
   const [medicalRecords, setMedicalRecords] = useState([]);
 
-  useEffect(
-    () => {
-      loadMedicalRecords();
-      loadBiochemistry();
-      loadHematology();
-      loadUrine();
-      loadPatients();
-      loadUsers();
-    },
-    [],
-    medicalRecords
-  );
+  const validate = async (id) => {
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    const result = await axios.post(
+      `http://localhost:9000/medical-records/validate/${id}`,
+      "",
+      config
+    );
+    console.log(result.data);
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    loadMedicalRecords();
+    loadBiochemistry();
+    loadHematology();
+    loadUrine();
+    loadPatients();
+    //  loadUsers();
+  }, medicalRecords);
+
+  const onClickDeleteRecord = async (id) => {
+    const jwt = localStorage.getItem("jwt");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    await axios.delete(`http://localhost:9000/medical-records/${id}`, config);
+    message.success("Uspjesno ste obrisali nalaz");
+    navigate("/medical-records");
+  };
 
   const loadMedicalRecords = async () => {
     const jwt = localStorage.getItem("jwt");
@@ -59,7 +85,11 @@ export default function medicalRecords() {
       "http://localhost:9000/medical-records",
       config
     );
-    setMedicalRecords(result.data);
+    setMedicalRecords(
+      result.data.sort(
+        (a, b) => new Date(b.createdTime) - new Date(a.createdTime)
+      )
+    );
   };
   const loadBiochemistry = async () => {
     const jwt = localStorage.getItem("jwt");
@@ -107,16 +137,6 @@ export default function medicalRecords() {
     const result = await axios.get(`http://localhost:9000/patients`, config);
     setPatients(result.data);
   };
-  const loadUsers = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(`http://localhost:9000/users`, config);
-    setUsers(result.data);
-  };
 
   const valid = (x) => {
     if (x === "true") return "validan";
@@ -134,14 +154,6 @@ export default function medicalRecords() {
       }
     }
   }
-  function returnFullNameUser(id) {
-    for (const key in users) {
-      if (users[key].id === id) {
-        return `${users[key].firstName} ${users[key].lastName}`;
-      }
-    }
-    return "";
-  }
   return (
     <Grid
       container
@@ -150,6 +162,7 @@ export default function medicalRecords() {
       alignItems="center"
       justifyContent="center"
     >
+      <h3>Lista rezultata</h3>
       <List>
         {medicalRecords.map((medicalRecord, index) => (
           <Card sx={{ width: 1200, borderBottom: 1 }} key={index}>
@@ -161,14 +174,36 @@ export default function medicalRecords() {
                 }}
               >
                 <ListItem variant="body2">
-                  Pacijent: {returnFullNamePatient(medicalRecord.patientId)}
-                </ListItem>
-                <ListItem variant="body2">ICD: {medicalRecord.icd}</ListItem>
-                <ListItem variant="body2">
-                  Is Valid: {valid(medicalRecord.isValid)}
+                  <b>{"Pacijent: "}</b>
+                  {returnFullNamePatient(medicalRecord.patientId)}
                 </ListItem>
                 <ListItem variant="body2">
-                  Validirao: {returnFullNameUser(medicalRecord.userId)}
+                  <b>ICD: </b> {medicalRecord.icd}
+                </ListItem>
+                <ListItem variant="body2">
+                  <b>Stanje: </b>
+                  {valid(medicalRecord.isValid)}
+                </ListItem>
+                <ListItem variant="body2">
+                  <Row gutter={8}>
+                    <Col>
+                      <Button
+                        type="primary"
+                        onClick={() => validate(medicalRecord.id)}
+                      >
+                        Validiraj
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Button
+                        style={{ backgroundColor: "red", color: "white" }}
+                        type="primary"
+                        onClick={() => onClickDeleteRecord(medicalRecord.id)}
+                      >
+                        Obrisi
+                      </Button>
+                    </Col>
+                  </Row>
                 </ListItem>
               </Box>
             </CardContent>
@@ -192,7 +227,7 @@ export default function medicalRecords() {
                   width: 180,
                 }}
               >
-                Biohemija
+                <b>Biohemija</b>
               </IconButton>
               <IconButton
                 onClick={() => handleExpandClick(index * 3 + 1)}
@@ -206,7 +241,7 @@ export default function medicalRecords() {
                   width: 180,
                 }}
               >
-                Hematologija
+                <b>Hematologija</b>
               </IconButton>
               <IconButton
                 onClick={() => handleExpandClick(index * 3 + 2)}
@@ -220,7 +255,7 @@ export default function medicalRecords() {
                   width: 180,
                 }}
               >
-                Urin
+                <b>Urin</b>
               </IconButton>
             </CardActions>
             <Grid
@@ -252,7 +287,7 @@ export default function medicalRecords() {
                       >
                         {/* Biohemija */}
                         <Table aria-label="simple table">
-                          <TableBody>
+                          <TableBody width="">
                             <TableRow
                               sx={{
                                 "&:last-child td, &:last-child th": {

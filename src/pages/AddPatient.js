@@ -58,7 +58,7 @@ export default function AddPatient() {
       },
     };
     await axios.post("http://localhost:9000/patients", patient, config);
-    navigate("/home");
+    navigate("/patients");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
