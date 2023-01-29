@@ -15,9 +15,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, Row, Col, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import MedicalRecordModal from "./MedicalRecordModal";
 
 export default function medicalRecords() {
   const navigate = useNavigate();
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [expanded, setExpanded] = useState([]);
   const [biochemistries, setBiochemistry] = useState([]);
   const [hematologies, setHematology] = useState([]);
@@ -147,6 +150,10 @@ export default function medicalRecords() {
     else if (broj > b) return true;
     else return false;
   }
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
   function returnFullNamePatient(id) {
     for (const key in patients) {
       if (patients[key].id === id) {
@@ -185,7 +192,7 @@ export default function medicalRecords() {
                   {valid(medicalRecord.isValid)}
                 </ListItem>
                 <ListItem variant="body2">
-                  <Row gutter={8}>
+                  <Row gutter={2}>
                     <Col>
                       <Button
                         type="primary"
@@ -202,6 +209,19 @@ export default function medicalRecords() {
                       >
                         Obrisi
                       </Button>
+                      <Col>
+                        <Button
+                          type="primary"
+                          onClick={() => handleOpenModal(1)}
+                        >
+                          Modal
+                        </Button>
+                        <MedicalRecordModal
+                          visible={modalVisible}
+                          setVisible={setModalVisible}
+                          id={medicalRecord.id}
+                        />
+                      </Col>
                     </Col>
                   </Row>
                 </ListItem>
