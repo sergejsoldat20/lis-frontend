@@ -130,15 +130,15 @@ export default function AddUser() {
                         }}
                         options={[
                           {
-                            value: "Ljekar",
+                            value: "DOCTOR",
                             label: "Ljekar",
                           },
                           {
-                            value: "Tehnicar",
+                            value: "NURSE",
                             label: "Tehnicar",
                           },
                           {
-                            value: "Admin",
+                            value: "ADMIN",
                             label: "Admin",
                           },
                         ]}

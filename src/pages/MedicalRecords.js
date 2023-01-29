@@ -15,6 +15,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, Row, Col, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import CheckIfNurse from "../utils/CheckIfNurse";
 
 export default function medicalRecords() {
   const navigate = useNavigate();
@@ -61,7 +62,6 @@ export default function medicalRecords() {
     loadPatients();
     //  loadUsers();
   }, medicalRecords);
-
   const onClickDeleteRecord = async (id) => {
     const jwt = localStorage.getItem("jwt");
     const config = {
@@ -184,27 +184,29 @@ export default function medicalRecords() {
                   <b>Stanje: </b>
                   {valid(medicalRecord.isValid)}
                 </ListItem>
-                <ListItem variant="body2">
-                  <Row gutter={8}>
-                    <Col>
-                      <Button
-                        type="primary"
-                        onClick={() => validate(medicalRecord.id)}
-                      >
-                        Validiraj
-                      </Button>
-                    </Col>
-                    <Col>
-                      <Button
-                        style={{ backgroundColor: "red", color: "white" }}
-                        type="primary"
-                        onClick={() => onClickDeleteRecord(medicalRecord.id)}
-                      >
-                        Obrisi
-                      </Button>
-                    </Col>
-                  </Row>
-                </ListItem>
+                {!CheckIfNurse() && (
+                  <ListItem variant="body2">
+                    <Row gutter={8}>
+                      <Col>
+                        <Button
+                          type="primary"
+                          onClick={() => validate(medicalRecord.id)}
+                        >
+                          Validiraj
+                        </Button>
+                      </Col>
+                      <Col>
+                        <Button
+                          style={{ backgroundColor: "red", color: "white" }}
+                          type="primary"
+                          onClick={() => onClickDeleteRecord(medicalRecord.id)}
+                        >
+                          Obrisi
+                        </Button>
+                      </Col>
+                    </Row>
+                  </ListItem>
+                )}
               </Box>
             </CardContent>
             <CardActions
