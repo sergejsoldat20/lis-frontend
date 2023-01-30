@@ -5,8 +5,9 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import { Form, Input, Button, Select, message } from "antd";
+import { Form, Input, Button, Select, message, Radio } from "antd";
 import { useNavigate } from "react-router-dom";
+import CheckIfNurse from "../utils/CheckIfNurse";
 
 export default function AddMedicalRecord() {
   /* const [biochemistryId, setBiochemistryId] = useState(null);
@@ -19,7 +20,7 @@ export default function AddMedicalRecord() {
 
   const [medicalRecord, setMedicalRecord] = useState({
     icd: "",
-    isValid: "",
+    isValid: "false",
     hematologyId: null,
     urineId: null,
     biochemistryId: null,
@@ -61,7 +62,7 @@ export default function AddMedicalRecord() {
     setPatients(result.data);
   };
 
-  const { icd, isValid } = medicalRecord;
+  const { icd, isValid, userId } = medicalRecord;
   const { surea, sglucose, screatinine } = biochemistry;
   const { leukocytes, erythrocytes, hemaglobin, hematocrit, platelets } =
     hematology;
@@ -84,6 +85,12 @@ export default function AddMedicalRecord() {
   };
 
   const onMedicalRecordSubmit = async (e) => {
+    for (const key in medicalRecord) {
+      if (medicalRecord[key] === "") {
+        message.error("Potrebno je popuniti sva polja u nalazu!", 5);
+        return;
+      }
+    }
     console.log(medicalRecord.data);
     const jwt = localStorage.getItem("jwt");
     const config = {
@@ -91,6 +98,11 @@ export default function AddMedicalRecord() {
         Authorization: `Bearer ${jwt}`,
       },
     };
+    const currentId = await axios.get(
+      `http://localhost:9000/users/current-id`,
+      config
+    );
+    medicalRecord.userId = currentId.data;
     const response = await axios.post(
       "http://localhost:9000/medical-records",
       medicalRecord,
@@ -104,8 +116,13 @@ export default function AddMedicalRecord() {
       navigate("/");
     }
   };
-
   const onBiochemistrySubmit = async (e) => {
+    for (const key in biochemistry) {
+      if (biochemistry[key] === "") {
+        message.error("Potrebno je popuniti sva polja za biohemiju!", 5);
+        return;
+      }
+    }
     const jwt = localStorage.getItem("jwt");
     const config = {
       headers: {
@@ -129,6 +146,12 @@ export default function AddMedicalRecord() {
   };
 
   const onHematologySubmit = async (e) => {
+    for (const key in hematology) {
+      if (hematology[key] === "") {
+        message.error("Potrebno je popuniti sva polja za hematologiju!", 5);
+        return;
+      }
+    }
     const jwt = localStorage.getItem("jwt");
     const config = {
       headers: {
@@ -152,6 +175,12 @@ export default function AddMedicalRecord() {
   };
 
   const onUrineSubmit = async (e) => {
+    for (const key in urine) {
+      if (urine[key] === "") {
+        message.error("Potrebno je popuniti sva polja za urin", 5);
+        return;
+      }
+    }
     const jwt = localStorage.getItem("jwt");
     const config = {
       headers: {
@@ -188,7 +217,7 @@ export default function AddMedicalRecord() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={3}>
+      <Grid container rowSpacing={3}>
         <div className="container">
           <div className="rom">
             <div className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow">
@@ -196,322 +225,278 @@ export default function AddMedicalRecord() {
 
               <div className="card">
                 <div className="card-header">
-                  <Grid>
+                  <Grid
+                    sx={{ height: 265 }}
+                    alignItems="center"
+                    justifyContent="center"
+                    marginTop={2}
+                    borderBottom={3}
+                    borderColor="#D1D1D1"
+                  >
                     <b>Biohemija</b>
-                    <Item>
-                      <Form
-                        name="basic"
-                        labelCol={{
-                          span: 10,
-                        }}
-                        wrapperCol={{
-                          span: 16,
-                        }}
-                        initialValues={{
-                          remember: true,
-                        }}
-                        onFinish={(e) => onBiochemistrySubmit(e)}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
-                        requiredMark={false}
+                    <Grid sx={{ height: 15 }}></Grid>
+                    <Form
+                      name="basic"
+                      labelCol={{
+                        span: 10,
+                      }}
+                      wrapperCol={{
+                        span: 16,
+                      }}
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={(e) => onBiochemistrySubmit(e)}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete="off"
+                      requiredMark={false}
+                    >
+                      <Form.Item label="s-urea: ">
+                        <Input
+                          name="surea"
+                          value={surea}
+                          onChange={(e) => onBiochemistryChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item label="sglucose: ">
+                        <Input
+                          name="sglucose"
+                          value={sglucose}
+                          onChange={(e) => onBiochemistryChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item label="s-creatinine: ">
+                        <Input
+                          name="screatinine"
+                          value={screatinine}
+                          onChange={(e) => onBiochemistryChange(e)}
+                        />
+                      </Form.Item>
+                      <Button
+                        type="primary"
+                        onClick={onBiochemistrySubmit}
+                        disabled={bioIsLocked}
+                        style={{ width: "175px" }}
                       >
-                        <Form.Item
-                          label="s-urea: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="surea"
-                            value={surea}
-                            onChange={(e) => onBiochemistryChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="sglucose: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="sglucose"
-                            value={sglucose}
-                            onChange={(e) => onBiochemistryChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="s-creatinine: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="screatinine"
-                            value={screatinine}
-                            onChange={(e) => onBiochemistryChange(e)}
-                          />
-                        </Form.Item>
-                        <Button
-                          type="primary"
-                          onClick={onBiochemistrySubmit}
-                          disabled={bioIsLocked}
-                          style={{ width: "150px" }}
-                        >
-                          Dodaj biohemiju
-                        </Button>
-                      </Form>
-                    </Item>
+                        Dodaj biohemiju
+                      </Button>
+                    </Form>
                   </Grid>
-                  <Grid>
+                  <Grid
+                    sx={{ height: 380 }}
+                    alignItems="center"
+                    justifyContent="center"
+                    marginTop={2}
+                    borderBottom={3}
+                    borderColor="#D1D1D1"
+                  >
                     <b>Hematologija</b>
-                    <Item>
-                      <Form
-                        name="basic"
-                        labelCol={{
-                          span: 10,
-                        }}
-                        wrapperCol={{
-                          span: 16,
-                        }}
-                        initialValues={{
-                          remember: true,
-                        }}
-                        onFinish={(e) => onHematologySubmit(e)}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
-                        requiredMark={false}
-                      >
-                        <Form.Item
-                          label="leukociti: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="leukocytes"
-                            value={leukocytes}
-                            onChange={(e) => onHematologyChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="eritrociti: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="erythrocytes"
-                            value={erythrocytes}
-                            onChange={(e) => onHematologyChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="hemoglobin: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="hemaglobin"
-                            value={hemaglobin}
-                            onChange={(e) => onHematologyChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="hematokrit: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="hematocrit"
-                            value={hematocrit}
-                            onChange={(e) => onHematologyChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="trombociti: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="platelets"
-                            value={platelets}
-                            onChange={(e) => onHematologyChange(e)}
-                          />
-                        </Form.Item>
-                        <Button
-                          type="primary"
-                          onClick={onHematologySubmit}
-                          disabled={hemIsLocked}
-                          style={{ width: "150px" }}
-                        >
-                          Dodaj hematologiju
-                        </Button>
-                      </Form>
-                    </Item>
-                  </Grid>
-                  <Grid>
-                    <b>Urin</b>
-                    <Item>
-                      <Form
-                        name="basic"
-                        labelCol={{
-                          span: 10,
-                        }}
-                        wrapperCol={{
-                          span: 16,
-                        }}
-                        initialValues={{
-                          remember: true,
-                        }}
-                        onFinish={(e) => onUrineSubmit(e)}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
-                        requiredMark={false}
-                      >
-                        <Form.Item
-                          label="urine sediment: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="urineSediment"
-                            value={urineSediment}
-                            onChange={(e) => onUrineChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="u-proteins: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
-                            name="uproteins"
-                            value={uproteins}
-                            onChange={(e) => onUrineChange(e)}
-                          />
-                        </Form.Item>
-                        <Button
-                          type="primary"
-                          onClick={onUrineSubmit}
-                          disabled={uriIsLocked}
-                          style={{ width: "150px" }}
-                        >
-                          Dodaj urin
-                        </Button>
-                      </Form>
-                    </Item>
-                  </Grid>
+                    <Grid sx={{ height: 15 }}></Grid>
 
-                  <Grid>
-                    <b>Nalaz</b>
-                    <Item>
-                      <Form
-                        name="basic"
-                        labelCol={{
-                          span: 10,
-                        }}
-                        wrapperCol={{
-                          span: 16,
-                        }}
-                        initialValues={{
-                          remember: true,
-                        }}
-                        onFinish={(e) => onMedicalRecordSubmit(e)}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
-                        requiredMark={false}
+                    <Form
+                      name="basic"
+                      labelCol={{
+                        span: 10,
+                      }}
+                      wrapperCol={{
+                        span: 16,
+                      }}
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={(e) => onHematologySubmit(e)}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete="off"
+                      requiredMark={false}
+                    >
+                      <Form.Item label="leukociti: ">
+                        <Input
+                          name="leukocytes"
+                          value={leukocytes}
+                          onChange={(e) => onHematologyChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item label="eritrociti: ">
+                        <Input
+                          name="erythrocytes"
+                          value={erythrocytes}
+                          onChange={(e) => onHematologyChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item label="hemoglobin: ">
+                        <Input
+                          name="hemaglobin"
+                          value={hemaglobin}
+                          onChange={(e) => onHematologyChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item label="hematokrit: ">
+                        <Input
+                          name="hematocrit"
+                          value={hematocrit}
+                          onChange={(e) => onHematologyChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item label="trombociti: ">
+                        <Input
+                          name="platelets"
+                          value={platelets}
+                          onChange={(e) => onHematologyChange(e)}
+                        />
+                      </Form.Item>
+                      <Button
+                        type="primary"
+                        onClick={onHematologySubmit}
+                        disabled={hemIsLocked}
+                        style={{ width: "175px" }}
                       >
+                        Dodaj hematologiju
+                      </Button>
+                    </Form>
+                  </Grid>
+                  <Grid
+                    sx={{ height: 210 }}
+                    alignItems="center"
+                    justifyContent="center"
+                    marginTop={2}
+                    borderBottom={3}
+                    borderColor="#D1D1D1"
+                  >
+                    <b>Urin</b>
+                    <Grid sx={{ height: 15 }}></Grid>
+                    <Form
+                      name="basic"
+                      labelCol={{
+                        span: 10,
+                      }}
+                      wrapperCol={{
+                        span: 16,
+                      }}
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={(e) => onUrineSubmit(e)}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete="off"
+                      requiredMark={false}
+                    >
+                      <Form.Item label="urine sediment: ">
+                        <Input
+                          name="urineSediment"
+                          value={urineSediment}
+                          onChange={(e) => onUrineChange(e)}
+                        />
+                      </Form.Item>
+                      <Form.Item label="u-proteins: ">
+                        <Input
+                          name="uproteins"
+                          value={uproteins}
+                          onChange={(e) => onUrineChange(e)}
+                        />
+                      </Form.Item>
+                      <Button
+                        type="primary"
+                        onClick={onUrineSubmit}
+                        disabled={uriIsLocked}
+                        style={{ width: "175px" }}
+                      >
+                        Dodaj urin
+                      </Button>
+                    </Form>
+                  </Grid>
+                  <Grid
+                    sx={{ height: 265 }}
+                    alignItems="center"
+                    justifyContent="center"
+                    marginTop={2}
+                  >
+                    <b>Nalaz</b>
+                    <Grid sx={{ height: 15 }}></Grid>
+
+                    <Form
+                      name="basic"
+                      labelCol={{
+                        span: 10,
+                      }}
+                      wrapperCol={{
+                        span: 16,
+                      }}
+                      initialValues={{
+                        remember: true,
+                      }}
+                      onFinish={(e) => onMedicalRecordSubmit(e)}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete="off"
+                      requiredMark={false}
+                    >
+                      <Form.Item label="ICD: ">
+                        <Input
+                          name="icd"
+                          value={icd}
+                          onChange={(e) => onMedicalRecordChange(e)}
+                        />
+                      </Form.Item>
+                      {!CheckIfNurse() && (
                         <Form.Item
-                          label="ICD: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
+                          label="Validan:"
+                          alignItems="left"
+                          justifyContent="left"
                         >
-                          <Input
-                            name="icd"
-                            value={icd}
-                            onChange={(e) => onMedicalRecordChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="Validan: "
-                          rules={[
-                            {
-                              required: true,
-                              message: "Treba popuniti sva polja",
-                            },
-                          ]}
-                        >
-                          <Input
+                          <Radio.Group
                             name="isValid"
                             value={isValid}
                             onChange={(e) => onMedicalRecordChange(e)}
-                          />
-                        </Form.Item>
-                        <Form.Item label="Pacijent :">
-                          <Select
-                            onChange={(selectedPatient) => {
-                              medicalRecord.patientId = selectedPatient;
-                            }}
+                            optionType="button"
                           >
-                            {patients.map((patient, index) => (
-                              <Select.Option key={index} value={patient.id}>
-                                {patient.firstName} {patient.lastName}
-                              </Select.Option>
-                            ))}
-                          </Select>
+                            <Radio
+                              value={"true"}
+                              style={{
+                                fontSize: 14,
+                                width: "164px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              DA
+                            </Radio>
+                            <Radio
+                              value={"false"}
+                              style={{
+                                fontSize: 14,
+                                width: "164px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              NE
+                            </Radio>
+                          </Radio.Group>
                         </Form.Item>
-                        <Button
-                          type="primary"
-                          onClick={onMedicalRecordSubmit}
-                          style={{
-                            width: "150px",
-                            backgroundColor: "green",
-                            color: "white",
+                        // </Form>
+                      )}
+                      <Form.Item label="Pacijent :">
+                        <Select
+                          onChange={(selectedPatient) => {
+                            medicalRecord.patientId = selectedPatient;
                           }}
                         >
-                          Dodaj nalaz
-                        </Button>
-                      </Form>
-                    </Item>
+                          {patients.map((patient, index) => (
+                            <Select.Option key={index} value={patient.id}>
+                              {patient.firstName} {patient.lastName}
+                            </Select.Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                      <Button
+                        type="primary"
+                        onClick={onMedicalRecordSubmit}
+                        style={{
+                          width: "175px",
+                          backgroundColor: "green",
+                          color: "white",
+                        }}
+                      >
+                        Dodaj nalaz
+                      </Button>
+                    </Form>
                   </Grid>
                 </div>
               </div>
@@ -520,5 +505,55 @@ export default function AddMedicalRecord() {
         </div>
       </Grid>
     </Box>
+    /* <Grid>
+      <b>Biohemija</b>
+      <Form
+        name="basic"
+        labelCol={{
+          span: 10,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={(e) => onBiochemistrySubmit(e)}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        requiredMark={false}
+      >
+        <Form.Item label="s-urea: ">
+          <Input
+            name="surea"
+            value={surea}
+            onChange={(e) => onBiochemistryChange(e)}
+          />
+        </Form.Item>
+        <Form.Item label="sglucose: ">
+          <Input
+            name="sglucose"
+            value={sglucose}
+            onChange={(e) => onBiochemistryChange(e)}
+          />
+        </Form.Item>
+        <Form.Item label="s-creatinine: ">
+          <Input
+            name="screatinine"
+            value={screatinine}
+            onChange={(e) => onBiochemistryChange(e)}
+          />
+        </Form.Item>
+        <Button
+          type="primary"
+          onClick={onBiochemistrySubmit}
+          disabled={bioIsLocked}
+          style={{ width: "150px" }}
+        >
+          Dodaj biohemiju
+        </Button>
+      </Form>
+    </Grid>
+    */
   );
 }

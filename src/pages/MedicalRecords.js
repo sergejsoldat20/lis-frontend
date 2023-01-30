@@ -15,6 +15,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, Row, Col, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import CheckIfNurse from "../utils/CheckIfNurse";
 import MedicalRecordModal from "./MedicalRecordModal";
 
 export default function medicalRecords() {
@@ -64,7 +65,6 @@ export default function medicalRecords() {
     loadPatients();
     //  loadUsers();
   }, medicalRecords);
-
   const onClickDeleteRecord = async (id) => {
     const jwt = localStorage.getItem("jwt");
     const config = {
@@ -192,7 +192,7 @@ export default function medicalRecords() {
                   {valid(medicalRecord.isValid)}
                 </ListItem>
                 <ListItem variant="body2">
-                  <Row gutter={2}>
+                  <Row gutter={8}>
                     <Col>
                       <Button
                         type="primary"
@@ -209,19 +209,6 @@ export default function medicalRecords() {
                       >
                         Obrisi
                       </Button>
-                      <Col>
-                        <Button
-                          type="primary"
-                          onClick={() => handleOpenModal(1)}
-                        >
-                          Modal
-                        </Button>
-                        <MedicalRecordModal
-                          visible={modalVisible}
-                          setVisible={setModalVisible}
-                          id={medicalRecord.id}
-                        />
-                      </Col>
                     </Col>
                   </Row>
                 </ListItem>

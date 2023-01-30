@@ -8,11 +8,14 @@ const PrivateRoutes = () => {
 
 const checkJwt = () => {
   const jwt = localStorage.getItem("jwt");
+  console.log("USER JWT:" + jwt);
+  if (jwt === null) return false;
   const decoded = jwtDecode(jwt);
   const expirationDate = decoded.exp;
   const currentTime = Date.now() / 1000;
   if (currentTime > expirationDate) {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("role");
     return false;
   } else {
     return true;

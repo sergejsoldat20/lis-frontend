@@ -16,6 +16,16 @@ export default function LogIn() {
       console.log(response.data.accessToken);
       const jwt = response.data.accessToken;
       localStorage.setItem("jwt", jwt);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      };
+      const role = await axios.get(
+        `http://localhost:9000/users/current-role`,
+        config
+      );
+      localStorage.setItem("role", role.data);
       message.success("Uspjesno ste se ulogovali");
       navigate("/medical-records");
     } catch (error) {

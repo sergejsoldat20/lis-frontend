@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ViewUrine from "./pages/ViewUrine";
 import MedicalRecords from "./pages/MedicalRecords";
 import AddUser from "./pages/AddUser";
+import AdminAuthorization from "./utils/AdminAuthorization";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import UsersView from "./pages/UsersView";
@@ -38,13 +39,11 @@ function App() {
             />
             <Route exact path="/add-patient" element={<AddPatient />} />
             <Route exact path="/medical-records" element={<MedicalRecords />} />
-            <Route exact path="/add-user" element={<AddUser />} />
             <Route
               exact
               path="/add-medical-record"
               element={<AddMedicalRecord />}
             />
-            <Route exact path="/users" element={<UsersView />} />
             <Route exact path="/users/:id" element={<UserView />} />
             <Route exact path="/profile" element={<Profile />} />
             <Route
@@ -52,6 +51,10 @@ function App() {
               paht="/definition-of-values"
               element={<ReferentValues />}
             />
+          </Route>
+          <Route element={<AdminAuthorization />}>
+            <Route exact path="/add-user" element={<AddUser />} />
+            <Route exact path="/users" element={<UsersView />} />
           </Route>
         </Routes>
       </Router>

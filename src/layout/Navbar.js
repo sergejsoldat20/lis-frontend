@@ -4,7 +4,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import { Menu, Switch } from "antd";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { checkIfAdmin } from "../utils/Authorization";
+import CheckIfAdmin from "../utils/CheckIfAdmin";
 export default function Navbar() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState("mail");
@@ -32,6 +32,7 @@ export default function Navbar() {
 
   const logout = () => {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("role");
     navigate("/");
   };
   return (
@@ -108,12 +109,12 @@ export default function Navbar() {
             }
           >
             <Menu.ItemGroup title="Menu">
-              {checkIfAdmin() && (
+              {CheckIfAdmin() && (
                 <Menu.Item key="setting:1">
                   <Link to="/add-user">Dodaj korisnika</Link>
                 </Menu.Item>
               )}
-              {checkIfAdmin() && (
+              {CheckIfAdmin() && (
                 <Menu.Item key="setting:2">
                   <Link to="/users">Pregled korisnika</Link>
                 </Menu.Item>
