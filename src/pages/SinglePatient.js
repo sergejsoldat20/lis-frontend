@@ -16,6 +16,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import ViewMedicalRecord from "./ViewMedicalRecord";
 export default function SinglePatient() {
   const [expanded, setExpanded] = useState([]);
   const [biochemistries, setBiochemistry] = useState([]);
@@ -202,8 +203,13 @@ export default function SinglePatient() {
       </Grid>
       <Grid item xs={8}>
         <List>
-          {/* <div className="container"> */}
-          {/* <div className="rom"> */}
+          {medicalRecords.map((medicalRecord, index) => (
+            <ViewMedicalRecord id={medicalRecord.id} key={index} />
+          ))}
+        </List>
+        {/* <List>
+          <div className="container"> 
+           <div className="rom"> 
           <div className="border rounder p-2 shadow">
             <h4 className="text-center m-4">Nalazi:</h4>
             <div className="card">
@@ -315,7 +321,7 @@ export default function SinglePatient() {
                                   // backgroundColor: "gray",
                                 }}
                               >
-                                {/* Biohemija */}
+                                Biohemija 
                                 <Table aria-label="simple table">
                                   <TableBody>
                                     <TableRow
@@ -431,7 +437,7 @@ export default function SinglePatient() {
                                   // backgroundColor: "gray",
                                 }}
                               >
-                                {/* Hematologija */}
+                                 Hematologija 
                                 <Table aria-label="simple table">
                                   <TableBody>
                                     <TableRow
@@ -555,7 +561,7 @@ export default function SinglePatient() {
                                   // backgroundColor: "gray",
                                 }}
                               >
-                                {/* Urin */}
+                                 Urin 
                                 <Table aria-label="simple table">
                                   <TableBody>
                                     <TableRow
@@ -617,9 +623,9 @@ export default function SinglePatient() {
               </div>
             </div>
           </div>
-          {/* </div> */}
-          {/* </div> */}
-        </List>
+          {/* </div> 
+          {/* </div> 
+        </List> */}
       </Grid>
     </Grid>
   );

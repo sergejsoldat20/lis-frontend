@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import Link from "antd/es/typography/Link";
 export default function Profile() {
   const [user, setUser] = useState({
     username: "",
@@ -28,6 +29,7 @@ export default function Profile() {
     console.log(result.data);
     setUser(result.data);
   };
+  const broj = null;
   return (
     <div className="container">
       <div className="rom">

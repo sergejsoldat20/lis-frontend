@@ -9,9 +9,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Card as CardAntd } from "antd";
-export default function ViewBiochemistry(id) {
-  // id
+import PropTypes from "prop-types";
+import LoadData from "../utils/LoadData";
+const ViewBiochemistry = (props) => {
   function provjeriGranice(broj, a, b) {
     if (broj < a) return true;
     else if (broj > b) return true;
@@ -26,44 +26,33 @@ export default function ViewBiochemistry(id) {
     loadBiochemistry();
   });
   const loadBiochemistry = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/biochemistries/${id}`,
-      config
-    );
-    setBiochemistry(result.data);
+    const result = LoadData(`biochemistries/${props.id}`);
+    setBiochemistry((await result).data);
   };
   return (
     <TableContainer
       component={Paper}
-      sx={{ maxWidth: 200, textAlign: "center" }}
+      sx={{
+        textAlign: "center",
+        // backgroundColor: "gray",
+      }}
     >
-      Naslov
+      <b>Biohemija</b>
       <Table aria-label="simple table">
-        <TableBody>
-          <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-            <TableCell component="th" scope="row" align="left">
-              s-creatinine
-            </TableCell>
+        <TableBody width="">
+          <TableRow
+            sx={{
+              "&:last-child td, &:last-child th": {
+                border: 0,
+              },
+            }}
+          >
+            <TableCell align="left">s-creatinine</TableCell>
             <TableCell align="center">{biochemistry.screatinine}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">s-glucose</TableCell>
-            <TableCell
-              align="center"
-              sx={{
-                color: provjeriGranice(biochemistry.sglucose, 6, 7)
-                  ? "red"
-                  : "black",
-              }}
-            >
-              {biochemistry.sglucose}
-            </TableCell>
+            <TableCell align="center">{biochemistry.sglucose}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">s-urea</TableCell>
@@ -73,7 +62,11 @@ export default function ViewBiochemistry(id) {
       </Table>
     </TableContainer>
   );
-}
+};
+ViewBiochemistry.propTypes = {
+  id: PropTypes.number,
+};
+export default ViewBiochemistry;
 // sx={{
 //   color: provjeriGranice(biochemistry.surea, 6, 8)
 //     ? "red"

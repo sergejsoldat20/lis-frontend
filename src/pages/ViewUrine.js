@@ -1,68 +1,67 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { styled } from "@mui/material/styles";
+// import axios from "axios";
+import { Paper } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-export default function ViewUrine() {
-  const [urines, setUrine] = useState([]);
+import PropTypes from "prop-types";
+import LoadData from "../utils/LoadData";
+const ViewUrine = (props) => {
+  const [urine, setUrine] = useState({
+    urineSediment: "",
+    uproteins: "",
+  });
   useEffect(() => {
     loadUrine();
   });
   const loadUrine = async () => {
-    const result = await axios.get(`http://localhost:9000/urines`);
-    setUrine(result.data);
+    // const jwt = localStorage.getItem("jwt");
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${jwt}`,
+    //   },
+    // };
+    // const result = await axios.get(
+    //   `http://localhost:9000/urines/${props.id}`,
+    //   config
+    // );
+    // setUrine(result.data);
+    const result = LoadData(`urines/${props.id}`);
+    setUrine((await result).data);
   };
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.dark,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
   return (
-    <TableContainer component={Paper} sx={{ width: 700, borderRadius: 3 }}>
-      <Table aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>#</StyledTableCell>
-            <StyledTableCell align="center">U-Proteins</StyledTableCell>
-            <StyledTableCell align="center">Urine Sediment</StyledTableCell>
+    <TableContainer
+      component={Paper}
+      sx={{
+        textAlign: "center",
+      }}
+    >
+      <b>Urin</b>
+      <Table aria-label="simple table">
+        <TableBody width="">
+          <TableRow
+            sx={{
+              "&:last-child td, &:last-child th": {
+                border: 0,
+              },
+            }}
+          >
+            <TableCell align="left">urine sediment</TableCell>
+            <TableCell align="center">{urine.urineSediment}</TableCell>
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {urines.map((urine, index) => (
-            <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">
-                {index + 1}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {urine.uproteins}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {urine.urineSediment}
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+          <TableRow>
+            <TableCell align="left">u-proteins</TableCell>
+            <TableCell align="center">{urine.uproteins}</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
+ViewUrine.propTypes = {
+  id: PropTypes.number,
+};
+export default ViewUrine;
