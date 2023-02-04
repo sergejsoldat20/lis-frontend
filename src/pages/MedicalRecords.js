@@ -16,6 +16,7 @@ import Paper from "@mui/material/Paper";
 import { Button, Row, Col, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import CheckIfNurse from "../utils/CheckIfNurse";
+import recordsService from "../services/recordsService.service";
 
 export default function medicalRecords() {
   const navigate = useNavigate();
@@ -75,21 +76,18 @@ export default function medicalRecords() {
   };
 
   const loadMedicalRecords = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      "http://localhost:9000/medical-records",
-      config
-    );
-    setMedicalRecords(
-      result.data.sort(
-        (a, b) => new Date(b.createdTime) - new Date(a.createdTime)
-      )
-    );
+    recordsService
+      .getAll()
+      .then((result) => {
+        setMedicalRecords(
+          result.data.sort(
+            (a, b) => new Date(b.createdTime) - new Date(a.createdTime)
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const loadBiochemistry = async () => {
     const jwt = localStorage.getItem("jwt");
