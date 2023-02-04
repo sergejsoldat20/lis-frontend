@@ -39,20 +39,11 @@ export default function medicalRecords() {
   };
   const [medicalRecords, setMedicalRecords] = useState([]);
 
-  const validate = async (id) => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.post(
-      `http://localhost:9000/medical-records/validate/${id}`,
-      "",
-      config
-    );
-    console.log(result.data);
-    window.location.reload();
+  const validate = (id) => {
+    recordsService.validate(id).then(function (response) {
+      console.log(response.data);
+      window.location.reload();
+    });
   };
 
   useEffect(() => {
@@ -64,7 +55,13 @@ export default function medicalRecords() {
     //  loadUsers();
   }, medicalRecords);
   const onClickDeleteRecord = async (id) => {
-    const jwt = localStorage.getItem("jwt");
+    recordsService.deleteRecord(id).then((response) => {
+      if (response.status === 200) {
+        message.success("Uspjesno ste obrisali nalaz");
+        navigate("/medical-records");
+      }
+    });
+    /* const jwt = localStorage.getItem("jwt");
     const config = {
       headers: {
         Authorization: `Bearer ${jwt}`,
@@ -72,7 +69,7 @@ export default function medicalRecords() {
     };
     await axios.delete(`http://localhost:9000/medical-records/${id}`, config);
     message.success("Uspjesno ste obrisali nalaz");
-    navigate("/medical-records");
+    navigate("/medical-records"); */
   };
 
   const loadMedicalRecords = async () => {
@@ -89,31 +86,26 @@ export default function medicalRecords() {
         console.log(err);
       });
   };
-  const loadBiochemistry = async () => {
-    const jwt = localStorage.getItem("jwt");
+  const loadBiochemistry = () => {
+    recordsService.getBiochemistries().then((result) => {
+      setBiochemistry(result.data);
+    });
+    /* const jwt = localStorage.getItem("jwt");
     const config = {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
     };
-    const result = await axios.get(
+    const result =  axios.get(
       `http://localhost:9000/biochemistries`,
       config
     );
-    setBiochemistry(result.data);
+    setBiochemistry(result.data); */
   };
-  const loadHematology = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/hematologies`,
-      config
-    );
-    setHematology(result.data);
+  const loadHematology = () => {
+    recordsService.getHematologies().then((result) => {
+      setHematology(result.data);
+    });
   };
   const loadUrine = async () => {
     const jwt = localStorage.getItem("jwt");

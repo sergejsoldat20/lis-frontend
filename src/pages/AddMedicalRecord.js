@@ -8,6 +8,9 @@ import axios from "axios";
 import { Form, Input, Button, Select, message, Radio } from "antd";
 import { useNavigate } from "react-router-dom";
 import CheckIfNurse from "../utils/CheckIfNurse";
+import patientService from "../services/patientService.service";
+import userService from "../services/userService.service";
+import recordsService from "../services/recordsService.service";
 
 export default function AddMedicalRecord() {
   /* const [biochemistryId, setBiochemistryId] = useState(null);
@@ -52,14 +55,9 @@ export default function AddMedicalRecord() {
     loadPatients();
   }, []);
   const loadPatients = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get("http://localhost:9000/patients", config);
-    setPatients(result.data);
+    patientService.getAll().then((result) => {
+      setPatients(result.data);
+    });
   };
 
   const { icd, isValid, userId } = medicalRecord;
@@ -91,30 +89,19 @@ export default function AddMedicalRecord() {
         return;
       }
     }
-    console.log(medicalRecord.data);
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const currentId = await axios.get(
-      `http://localhost:9000/users/current-id`,
-      config
-    );
-    medicalRecord.userId = currentId.data;
-    const response = await axios.post(
-      "http://localhost:9000/medical-records",
-      medicalRecord,
-      config
-    );
-    if (response.status === 200) {
-      message.success("Uspjesno ste dodali nalaz!");
-      navigate("/medical-records");
-    } else {
-      message.error("Niste dodali nalaz");
-      navigate("/");
-    }
+    userService.getCurrentId().then((result) => {
+      medicalRecord.userId = result.data;
+    });
+
+    recordsService.insertRecord(medicalRecord).then((result) => {
+      if (result.status === 200) {
+        message.success("Uspjesno ste dodali nalaz!");
+        navigate("/medical-records");
+      } else {
+        message.error("Niste dodali nalaz");
+        navigate("/medical-records");
+      }
+    });
   };
   const onBiochemistrySubmit = async (e) => {
     for (const key in biochemistry) {
@@ -123,26 +110,17 @@ export default function AddMedicalRecord() {
         return;
       }
     }
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const response = await axios.post(
-      "http://localhost:9000/biochemistries",
-      biochemistry,
-      config
-    );
-    if (response.status === 201) {
-      medicalRecord.biochemistryId = response.data.id;
-      message.success("Uspjesno ste dodali biohemiju u nalaz.");
-      if (!bioIsLocked) {
-        // Perform the button's intended action
-        console.log("Button clicked!");
-        setBioIsLocked(true);
+    recordsService.insertBiochemistry(biochemistry).then((result) => {
+      if (result.status === 201) {
+        medicalRecord.biochemistryId = result.data.id;
+        message.success("Uspjesno ste dodali biohemiju u nalaz.");
+        if (!bioIsLocked) {
+          // Perform the button's intended action
+          console.log("Button clicked!");
+          setBioIsLocked(true);
+        }
       }
-    }
+    });
   };
 
   const onHematologySubmit = async (e) => {
@@ -152,26 +130,17 @@ export default function AddMedicalRecord() {
         return;
       }
     }
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const response = await axios.post(
-      "http://localhost:9000/hematologies",
-      hematology,
-      config
-    );
-    if (response.status === 201) {
-      medicalRecord.hematologyId = response.data.id;
-      message.success("Uspjesno ste dodali hematologiju u nalaz.");
-      if (!hemIsLocked) {
-        // Perform the button's intended action
-        console.log("Button clicked!");
-        setHemIsLocked(true);
+    recordsService.insertHematology(hematology).then((result) => {
+      if (result.status === 201) {
+        medicalRecord.hematologyId = result.data.id;
+        message.success("Uspjesno ste dodali hematologiju u nalaz.");
+        if (!hemIsLocked) {
+          // Perform the button's intended action
+          console.log("Button clicked!");
+          setHemIsLocked(true);
+        }
       }
-    }
+    });
   };
 
   const onUrineSubmit = async (e) => {
@@ -181,26 +150,18 @@ export default function AddMedicalRecord() {
         return;
       }
     }
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const response = await axios.post(
-      "http://localhost:9000/urines",
-      urine,
-      config
-    );
-    if (response.status === 201) {
-      medicalRecord.urineId = response.data.id;
-      message.success("Uspjesno ste dodali urin u nalaz.");
-      if (!uriIsLocked) {
-        // Perform the button's intended action
-        console.log("Button clicked!");
-        setUriIsLocked(true);
+
+    recordsService.insertUrine(urine).then((result) => {
+      if (result.status === 201) {
+        medicalRecord.urineId = result.data.id;
+        message.success("Uspjesno ste dodali urin u nalaz.");
+        if (!uriIsLocked) {
+          // Perform the button's intended action
+          console.log("Button clicked!");
+          setUriIsLocked(true);
+        }
       }
-    }
+    });
   };
 
   const onFinishFailed = (errorInfo) => {

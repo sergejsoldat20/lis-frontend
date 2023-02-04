@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
+import patientService from "../services/patientService.service";
 import {
   Button,
   Radio,
@@ -51,13 +52,7 @@ export default function AddPatient() {
         return;
       }
     }
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    await axios.post("http://localhost:9000/patients", patient, config);
+    patientService.insert(patient);
     navigate("/patients");
   };
   const onFinishFailed = (errorInfo) => {

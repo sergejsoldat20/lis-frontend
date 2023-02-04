@@ -10,6 +10,14 @@ export const getById = (id) => {
   return instance.get(`/patients/${id}`);
 };
 
+export const findSinglePatient = (id) => {
+  return instance.get(`/patients/single-patient/${id}`);
+};
+
+export const getAllRecordsByPatientId = (id) => {
+  return instance.get(`patients/patients-records/${id}`);
+};
+
 export const insert = (patient) => {
   return instance.post("/patients", patient);
 };

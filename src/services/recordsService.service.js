@@ -48,6 +48,7 @@ export const validate = (id) => {
 
 export default {
   getAll,
+  validate,
   getBiochemistries,
   getHematologies,
   getUrines,
