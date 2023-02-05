@@ -52,7 +52,7 @@ export default function AddUser() {
         navigate("/users");
       } else {
         message.error("Niste dodali novog korisnika");
-        navigate("/users");git 
+        navigate("/users");g
       }
     });
     // navigate("/users");
