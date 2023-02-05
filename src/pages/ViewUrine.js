@@ -35,6 +35,7 @@ const ViewUrine = (props) => {
       component={Paper}
       sx={{
         textAlign: "center",
+        boxShadow: 6,
       }}
     >
       <b>Urin</b>
