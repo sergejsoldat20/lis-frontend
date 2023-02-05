@@ -52,8 +52,17 @@ export default function AddPatient() {
         return;
       }
     }
-    patientService.insert(patient);
-    navigate("/patients");
+    patientService.insert(patient).then((result) => {
+      console.log(result.status);
+      if (result.status === 201) {
+        message.success("Uspjesno ste dodali pacijenta!");
+        navigate("/patients");
+      } else {
+        message.error("Niste uspjesno dodali pacijenta!");
+        navigate("/patients");
+      }
+    });
+    // navigate("/patients");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

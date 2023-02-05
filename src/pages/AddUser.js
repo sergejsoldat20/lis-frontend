@@ -47,12 +47,12 @@ export default function AddUser() {
       }
     }
     authService.register(user).then((result) => {
-      if (result.status === 200) {
+      if (result.status === 201) {
         message.success("Dodali ste novog korisnika");
         navigate("/users");
       } else {
         message.error("Niste dodali novog korisnika");
-        navigate("/users");g
+        navigate("/users");
       }
     });
     // navigate("/users");
