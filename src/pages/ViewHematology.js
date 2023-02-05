@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-// import axios from "axios";
-import { styled } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-// import ProvjeriGranice from "../utils/ProvjeriGranice";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import PropTypes from "prop-types";
@@ -27,14 +24,8 @@ const ViewHematology = (props) => {
       setHematology(result.data);
     });
   };
-
-  const StyledTableContainer = styled(TableContainer)`
-    background-color: lightgray;
-    text-align: center;
-  `;
-
   return (
-    <StyledTableContainer
+    <TableContainer
       component={Paper}
       sx={{
         textAlign: "center",
@@ -96,7 +87,7 @@ const ViewHematology = (props) => {
           </TableRow>
         </TableBody>
       </Table>
-    </StyledTableContainer>
+    </TableContainer>
   );
 };
 ViewHematology.propTypes = {

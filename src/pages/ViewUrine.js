@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import recordsService from "../services/recordsService.service";
-import { Paper, styled } from "@mui/material";
+import { Paper } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -20,18 +20,8 @@ const ViewUrine = (props) => {
       setUrine(result.data);
     });
   };
-
-  const StyledTableContainer = styled(TableContainer)`
-    background-color: lightgray;
-    text-align: center;
-  `;
-
-  const StyledTableRow = styled(TableRow)`
-    background-color: lightgray;
-  `;
-
   return (
-    <StyledTableContainer
+    <TableContainer
       component={Paper}
       sx={{
         textAlign: "center",
@@ -41,23 +31,17 @@ const ViewUrine = (props) => {
       <b>Urin</b>
       <Table aria-label="simple table">
         <TableBody width="">
-          <StyledTableRow
-            sx={{
-              "&:last-child td, &:last-child th": {
-                border: 0,
-              },
-            }}
-          >
+          <TableRow>
             <TableCell align="left">urine sediment</TableCell>
             <TableCell align="center">{urine.urineSediment}</TableCell>
-          </StyledTableRow>
-          <StyledTableRow>
+          </TableRow>
+          <TableRow>
             <TableCell align="left">u-proteins</TableCell>
             <TableCell align="center">{urine.uproteins}</TableCell>
-          </StyledTableRow>
+          </TableRow>
         </TableBody>
       </Table>
-    </StyledTableContainer>
+    </TableContainer>
   );
 };
 ViewUrine.propTypes = {

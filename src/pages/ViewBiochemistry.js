@@ -37,13 +37,7 @@ const ViewBiochemistry = (props) => {
       }}
     >
       <b>Biohemija</b>
-      <Table
-        aria-label="simple table"
-        sx={{
-          // textAlign: "center",
-          backgroundColor: "gray",
-        }}
-      >
+      <Table aria-label="simple table">
         <TableBody width="">
           <TableRow
             sx={{
