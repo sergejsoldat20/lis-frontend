@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import patientService from "../services/patientService.service";
-export default function ViewBiochemistry() {
+import { Link } from "react-router-dom";
+export default function Patients() {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
     loadPatients();
-  }, []);
+  }, patients);
 
-  const loadPatients = async () => {
+  const loadPatients = () => {
     patientService.getAll().then((result) => {
-      console.log(result.data);
       setPatients(result.data);
     });
   };

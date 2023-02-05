@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import userService from "../services/userService.service";
+import { message } from "antd";
 
 export default function UsersView() {
   const [users, setUsers] = useState([]);
@@ -9,28 +10,30 @@ export default function UsersView() {
   useEffect(() => {
     loadUsers();
     console.log(id);
-  }, []);
+  }, users);
 
-  const loadUsers = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get("http://localhost:9000/users", config);
-    setUsers(result.data);
+  const loadUsers = () => {
+    userService.getAll().then((result) => {
+      setUsers(result.data);
+    });
   };
 
-  const deleteUser = async (id) => {
-    const jwt = localStorage.getItem("jwt");
+  const deleteUser = (id) => {
+    userService.remove(id).then((result) => {
+      if (result.status === 200) {
+        message.success(`Korisnik je uspjesno obrisan`);
+      } else {
+        message.error("Korisnik nije uspjesno obrisan");
+      }
+    });
+    /*  const jwt = localStorage.getItem("jwt");
     const config = {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
     };
     await axios.delete(`http://localhost:9000/users/${id}`, config);
-    loadUsers();
+    loadUsers(); */
   };
   return (
     <div className="container">

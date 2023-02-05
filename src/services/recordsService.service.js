@@ -6,6 +6,10 @@ export const getAll = () => {
   return instance.get("/medical-records");
 };
 
+export const getRecordById = (id) => {
+  return instance.get(`/medical-records/${id}`);
+};
+
 export const getBiochemistries = () => {
   return instance.get("/biochemistries");
 };
@@ -46,8 +50,21 @@ export const validate = (id) => {
   return instance.post(`/medical-records/validate/${id}`);
 };
 
+export const getBiochemistryById = (id) => {
+  return instance.get(`/biochemistries/${id}`);
+};
+
+export const getHematologyById = (id) => {
+  return instance.get(`/hematologies/${id}`);
+};
+
+export const getUrineById = (id) => {
+  return instance.get(`/urines/${id}`);
+};
+
 export default {
   getAll,
+  getRecordById,
   validate,
   getBiochemistries,
   getHematologies,
@@ -58,4 +75,7 @@ export default {
   insertRecord,
   deleteRecord,
   getInvalidRecords,
+  getBiochemistryById,
+  getHematologyById,
+  getUrineById,
 };

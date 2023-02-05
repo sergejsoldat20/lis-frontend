@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import Link from "antd/es/typography/Link";
+import userService from "../services/userService.service";
 export default function Profile() {
   const [user, setUser] = useState({
     username: "",
@@ -14,20 +16,12 @@ export default function Profile() {
     loadUser();
   }, []);
 
-  const loadUser = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/users/current-user`,
-      config
-    );
-    console.log(result.data);
-    setUser(result.data);
+  const loadUser = () => {
+    userService.getCurrentUser().then((result) => {
+      setUser(result.data);
+    });
   };
+  const broj = null;
   return (
     <div className="container">
       <div className="rom">

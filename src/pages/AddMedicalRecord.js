@@ -54,6 +54,7 @@ export default function AddMedicalRecord() {
   useEffect(() => {
     loadPatients();
   }, []);
+
   const loadPatients = async () => {
     patientService.getAll().then((result) => {
       setPatients(result.data);

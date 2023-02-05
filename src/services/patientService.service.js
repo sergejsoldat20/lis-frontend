@@ -15,7 +15,7 @@ export const findSinglePatient = (id) => {
 };
 
 export const getAllRecordsByPatientId = (id) => {
-  return instance.get(`patients/patients-records/${id}`);
+  return instance.get(`patients/patient-records/${id}`);
 };
 
 export const insert = (patient) => {
@@ -26,4 +26,6 @@ export default {
   getAll,
   getById,
   insert,
+  findSinglePatient,
+  getAllRecordsByPatientId,
 };

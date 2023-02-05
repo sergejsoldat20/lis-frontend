@@ -46,8 +46,16 @@ export default function AddUser() {
         return;
       }
     }
-    authService.register(user);
-    navigate("/users");
+    authService.register(user).then((result) => {
+      if (result.status === 200) {
+        message.success("Dodali ste novog korisnika");
+        navigate("/users");
+      } else {
+        message.error("Niste dodali novog korisnika");
+        navigate("/users");git 
+      }
+    });
+    // navigate("/users");
   };
 
   const onFinishFailed = (errorInfo) => {
