@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import PropTypes from "prop-types";
 import LoadData from "../utils/LoadData";
+import ProvjeriGranice from "../utils/ProvjeriGranice";
 const ViewHematology = (props) => {
   const [hematology, setHematology] = useState({
     leukocytes: 0,
@@ -40,6 +41,7 @@ const ViewHematology = (props) => {
       component={Paper}
       sx={{
         textAlign: "center",
+        boxShadow: 6,
       }}
     >
       <b>Hematologija</b>
@@ -47,27 +49,51 @@ const ViewHematology = (props) => {
         <TableBody>
           <TableRow
             sx={{
-              "&:last-child td, &:last-child th": {
-                border: 0,
-              },
+              backgroundColor: ProvjeriGranice(hematology.leukocytes, 4, 8)
+                ? "#FF695D"
+                : "white",
             }}
           >
             <TableCell align="left">leukocytes</TableCell>
             <TableCell align="center">{hematology.leukocytes}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: ProvjeriGranice(hematology.erythrocytes, 4, 8)
+                ? "#FF695D"
+                : "white",
+            }}
+          >
             <TableCell align="left">erythrocytes</TableCell>
             <TableCell align="center">{hematology.erythrocytes}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: ProvjeriGranice(hematology.hemaglobin, 4, 8)
+                ? "#FF695D"
+                : "white",
+            }}
+          >
             <TableCell align="left">hemaglobin</TableCell>
             <TableCell align="center">{hematology.hemaglobin}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: ProvjeriGranice(hematology.hematocrit, 4, 8)
+                ? "#FF695D"
+                : "white",
+            }}
+          >
             <TableCell align="left">hematocrit</TableCell>
             <TableCell align="center">{hematology.hematocrit}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: ProvjeriGranice(hematology.platelets, 4, 8)
+                ? "#FF695D"
+                : "white",
+            }}
+          >
             <TableCell align="left">platelets</TableCell>
             <TableCell align="center">{hematology.platelets}</TableCell>
           </TableRow>

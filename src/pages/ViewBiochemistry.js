@@ -11,12 +11,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import PropTypes from "prop-types";
 import LoadData from "../utils/LoadData";
+import ProvjeriGranice from "../utils/ProvjeriGranice";
 const ViewBiochemistry = (props) => {
-  function provjeriGranice(broj, a, b) {
-    if (broj < a) return true;
-    else if (broj > b) return true;
-    else return false;
-  }
   const [biochemistry, setBiochemistry] = useState({
     screatinine: 0,
     sglucose: 0,
@@ -34,7 +30,7 @@ const ViewBiochemistry = (props) => {
       component={Paper}
       sx={{
         textAlign: "center",
-        // backgroundColor: "gray",
+        boxShadow: 6,
       }}
     >
       <b>Biohemija</b>
@@ -42,19 +38,31 @@ const ViewBiochemistry = (props) => {
         <TableBody width="">
           <TableRow
             sx={{
-              "&:last-child td, &:last-child th": {
-                border: 0,
-              },
+              backgroundColor: ProvjeriGranice(biochemistry.screatinine, 7.5, 8)
+                ? "#FF695D"
+                : "white",
             }}
           >
             <TableCell align="left">s-creatinine</TableCell>
             <TableCell align="center">{biochemistry.screatinine}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: ProvjeriGranice(biochemistry.sglucose, 7.5, 8)
+                ? "#FF695D"
+                : "white",
+            }}
+          >
             <TableCell align="left">s-glucose</TableCell>
             <TableCell align="center">{biochemistry.sglucose}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: ProvjeriGranice(biochemistry.surea, 7.5, 8)
+                ? "#FF695D"
+                : "white",
+            }}
+          >
             <TableCell align="left">s-urea</TableCell>
             <TableCell align="center">{biochemistry.surea}</TableCell>
           </TableRow>
@@ -67,13 +75,3 @@ ViewBiochemistry.propTypes = {
   id: PropTypes.number,
 };
 export default ViewBiochemistry;
-// sx={{
-//   color: provjeriGranice(biochemistry.surea, 6, 8)
-//     ? "red"
-//     : "black",
-// }}
-// sx={{
-//   color: provjeriGranice(biochemistry.screatinine, 7.5, 8)
-//     ? "red"
-//     : "black",
-// }}

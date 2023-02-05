@@ -15,6 +15,7 @@ import ViewBiochemistry from "./ViewBiochemistry";
 import ViewHematology from "./ViewHematology";
 import ViewUrine from "./ViewUrine";
 import LoadData from "../utils/LoadData";
+import { CheckOutlined, CloseOutlined } from "@mui/icons-material";
 const ViewMedicalRecord = (props) => {
   const [expanded, setExpanded] = useState([]);
   const handleExpandClick = (number) => {
@@ -64,8 +65,8 @@ const ViewMedicalRecord = (props) => {
     setMedicalRecord((await result).data);
   };
   const valid = (x) => {
-    if (x === "true") return "validan";
-    else return "nije validan";
+    if (x === "true") return true;
+    else return false;
   };
   const validate = async (id) => {
     const jwt = localStorage.getItem("jwt");
@@ -83,7 +84,12 @@ const ViewMedicalRecord = (props) => {
     window.location.reload();
   };
   return (
-    <Card sx={{ borderBottom: 1 }}>
+    <Card
+      sx={{
+        borderBottom: 5,
+        borderColor: "#D1D1D1",
+      }}
+    >
       <CardContent sx={{ textAlign: "left" }}>
         <Box
           sx={{
@@ -102,31 +108,13 @@ const ViewMedicalRecord = (props) => {
             <b>Datum:</b> {medicalRecord.createdTime.split("T")[0]}
           </ListItem>
           <ListItem variant="body2">
-            <b>Stanje:</b> {valid(medicalRecord.isValid)}
+            <b>Validan:</b>{" "}
+            {valid(medicalRecord.isValid) === true ? (
+              <CheckOutlined sx={{ color: "green" }} />
+            ) : (
+              <CloseOutlined sx={{ color: "red" }} />
+            )}
           </ListItem>
-          {/* {!CheckIfNurse() && (
-            <ListItem variant="body2">
-              <Row gutter={8}>
-                <Col>
-                  <Button
-                    type="primary"
-                    onClick={() => validate(medicalRecord.id)}
-                  >
-                    Validiraj
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ backgroundColor: "red", color: "white" }}
-                    type="primary"
-                    onClick={() => onClickDeleteRecord(medicalRecord.id)}
-                  >
-                    Obrisi
-                  </Button>
-                </Col>
-              </Row>
-            </ListItem>
-          )} */}
         </Box>
       </CardContent>
       <Box
@@ -157,20 +145,6 @@ const ViewMedicalRecord = (props) => {
             >
               <b>Pregledaj</b>
             </IconButton>
-            {/* {!CheckIfNurse() && (
-              <Button type="primary" onClick={() => validate(medicalRecord.id)}>
-                Validiraj
-              </Button>
-            )}
-            {!CheckIfNurse() && (
-              <Button
-                style={{ backgroundColor: "red", color: "white" }}
-                type="primary"
-                onClick={() => onClickDeleteRecord(medicalRecord.id)}
-              >
-                Obrisi
-              </Button>
-            )} */}
           </CardActions>
         </ListItem>
         <ListItem variant="body2">
@@ -199,69 +173,6 @@ const ViewMedicalRecord = (props) => {
           )}
         </ListItem>
       </Box>
-      {/* <Grid containter>
-        <Grid item xs={4}>
-          {!CheckIfNurse() && (
-            <ListItem variant="body2">
-              <Row gutter={8}>
-                <Col>
-                  <Button
-                    type="primary"
-                    onClick={() => validate(medicalRecord.id)}
-                  >
-                    Validiraj
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{ backgroundColor: "red", color: "white" }}
-                    type="primary"
-                    onClick={() => onClickDeleteRecord(medicalRecord.id)}
-                  >
-                    Obrisi
-                  </Button>
-                </Col>
-              </Row>
-            </ListItem>
-          )}
-        </Grid>
-        <Grid item xs={4}>
-          <CardActions
-            disableSpacing
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              margin: 0,
-              spacing: 0,
-            }}
-          >
-            <IconButton
-              onClick={() => handleExpandClick(props.id)}
-              sx={{
-                color: expanded.includes(props.id) ? "blue" : "black",
-                fontSize: 16,
-                textDecoration: expanded.includes(props.id) ? "underline" : "",
-              }}
-            >
-              <b>Pregledaj</b>
-            </IconButton>
-            {/* {!CheckIfNurse() && (
-              <Button type="primary" onClick={() => validate(medicalRecord.id)}>
-                Validiraj
-              </Button>
-            )}
-            {!CheckIfNurse() && (
-              <Button
-                style={{ backgroundColor: "red", color: "white" }}
-                type="primary"
-                onClick={() => onClickDeleteRecord(medicalRecord.id)}
-              >
-                Obrisi
-              </Button>
-            )} 
-          </CardActions>
-        </Grid>
-      </Grid> */}
 
       <Grid
         container
