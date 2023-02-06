@@ -17,6 +17,7 @@ import recordsService from "../services/recordsService.service";
 import { CheckOutlined, CloseOutlined } from "@mui/icons-material";
 const ViewMedicalRecord = (props) => {
   const [expanded, setExpanded] = useState([]);
+  const [isValidLocked, setIsValidLocked] = useState(false);
   const handleExpandClick = (number) => {
     if (expanded.includes(number)) {
       const expandedCopy = expanded.filter((element) => {
@@ -59,6 +60,9 @@ const ViewMedicalRecord = (props) => {
   const loadMedicalRecord = () => {
     recordsService.getRecordById(props.id).then((result) => {
       setMedicalRecord(result.data);
+      if (result.data.isValid === "true") {
+        setIsValidLocked(true);
+      }
     });
   };
   const valid = (x) => {
@@ -69,6 +73,9 @@ const ViewMedicalRecord = (props) => {
     recordsService.validate(id).then(function (response) {
       console.log(response.data);
       props.handleValidate(props.id);
+      if (!isValidLocked) {
+        setIsValidLocked(true);
+      }
     });
   };
   return (
@@ -143,6 +150,7 @@ const ViewMedicalRecord = (props) => {
                 <Col>
                   <Button
                     type="primary"
+                    disabled={isValidLocked}
                     onClick={() => validate(medicalRecord.id)}
                   >
                     Validiraj
