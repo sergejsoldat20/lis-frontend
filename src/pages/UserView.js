@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import userService from "../services/userService.service";
 
 export default function UserView() {
   const [user, setUser] = useState({
@@ -18,7 +18,11 @@ export default function UserView() {
     console.log(id);
   }, []);
 
-  const loadUser = async () => {
+  const loadUser = () => {
+    userService.getById(id).then((result) => {
+      setUser(result.data);
+    });
+    /* 
     const jwt = localStorage.getItem("jwt");
     const config = {
       headers: {
@@ -27,7 +31,7 @@ export default function UserView() {
     };
     const result = await axios.get(`http://localhost:9000/users/${id}`, config);
     setUser(result.data);
-    console.log(result.data);
+    console.log(result.data); */
   };
   return (
     <div className="container">
