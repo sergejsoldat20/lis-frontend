@@ -16,25 +16,9 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import ViewMedicalRecord from "./ViewMedicalRecord";
+import patientService from "../services/patientService.service";
 export default function SinglePatient() {
-  const [expanded, setExpanded] = useState([]);
-  const [biochemistries, setBiochemistry] = useState([]);
-  const [hematologies, setHematology] = useState([]);
-  const [urines, setUrine] = useState([]);
-  const [users, setUsers] = useState([]);
-
-  const handleExpandClick = (broj) => {
-    if (expanded.includes(broj)) {
-      const expandedCopy = expanded.filter((element) => {
-        return element !== broj;
-      });
-      setExpanded(expandedCopy);
-    } else {
-      const expandedCopy = [...expanded];
-      expandedCopy.push(broj);
-      setExpanded(expandedCopy);
-    }
-  };
   const { id } = useParams();
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [patient, setPatient] = useState({
@@ -52,103 +36,24 @@ export default function SinglePatient() {
   useEffect(() => {
     loadPatient();
     loadPatientRecords();
-    loadBiochemistry();
-    loadHematology();
-    loadUrine();
-    loadUsers();
+    // loadBiochemistry();
+    // loadHematology();
+    // loadUrine();
+    // loadUsers();
   }, []);
 
   const loadPatientRecords = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/patients/patient-records/${id}`,
-      config
-    );
-    setMedicalRecords(result.data);
+    patientService.getAllRecordsByPatientId(id).then((result) => {
+      setMedicalRecords(result.data);
+    });
   };
 
   const loadPatient = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/patients/${id}`,
-      config
-    );
-    setPatient(result.data);
-  };
-  const loadBiochemistry = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/biochemistries`,
-      config
-    );
-    setBiochemistry(result.data);
-  };
-  const loadHematology = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/hematologies`,
-      config
-    );
-    setHematology(result.data);
-  };
-  const loadUrine = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(`http://localhost:9000/urines`, config);
-    setUrine(result.data);
-  };
-  const loadUsers = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(`http://localhost:9000/users`, config);
-    setUsers(result.data);
+    patientService.getById(id).then((result) => {
+      setPatient(result.data);
+    });
   };
 
-  const valid = (x) => {
-    if (x === "true") return "validan";
-    else return "nije validan";
-  };
-  function checkBoundaries(broj, a, b) {
-    if (broj < a) return true;
-    else if (broj > b) return true;
-    else return false;
-  }
-  function returnFullNameUser(id) {
-    for (const key in users) {
-      if (users[key].id === id) {
-        return `${users[key].firstName} ${users[key].lastName}`;
-      }
-    }
-    return "";
-  }
   return (
     <Grid container spacing={0}>
       <Grid item xs={4}>
@@ -202,8 +107,13 @@ export default function SinglePatient() {
       </Grid>
       <Grid item xs={8}>
         <List>
-          {/* <div className="container"> */}
-          {/* <div className="rom"> */}
+          {medicalRecords.map((medicalRecord, index) => (
+            <ViewMedicalRecord id={medicalRecord.id} key={index} />
+          ))}
+        </List>
+        {/* <List>
+          <div className="container"> 
+           <div className="rom"> 
           <div className="border rounder p-2 shadow">
             <h4 className="text-center m-4">Nalazi:</h4>
             <div className="card">
@@ -315,7 +225,7 @@ export default function SinglePatient() {
                                   // backgroundColor: "gray",
                                 }}
                               >
-                                {/* Biohemija */}
+                                Biohemija 
                                 <Table aria-label="simple table">
                                   <TableBody>
                                     <TableRow
@@ -431,7 +341,7 @@ export default function SinglePatient() {
                                   // backgroundColor: "gray",
                                 }}
                               >
-                                {/* Hematologija */}
+                                 Hematologija 
                                 <Table aria-label="simple table">
                                   <TableBody>
                                     <TableRow
@@ -555,7 +465,7 @@ export default function SinglePatient() {
                                   // backgroundColor: "gray",
                                 }}
                               >
-                                {/* Urin */}
+                                 Urin 
                                 <Table aria-label="simple table">
                                   <TableBody>
                                     <TableRow
@@ -617,9 +527,9 @@ export default function SinglePatient() {
               </div>
             </div>
           </div>
-          {/* </div> */}
-          {/* </div> */}
-        </List>
+          {/* </div> 
+          {/* </div> 
+        </List> */}
       </Grid>
     </Grid>
   );

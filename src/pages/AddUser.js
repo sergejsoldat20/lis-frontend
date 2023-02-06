@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import "../App.css";
+import userService from "../services/userService.service";
+import authService from "../services/authService.service";
 export default function AddUser() {
   const [usernames, setUsernames] = useState([]);
   const navigate = useNavigate();
@@ -19,18 +21,10 @@ export default function AddUser() {
   useEffect(() => {
     loadUsernames();
   }, []);
-  const loadUsernames = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get(
-      `http://localhost:9000/users/usernames`,
-      config
-    );
-    setUsernames(result.data);
+  const loadUsernames = () => {
+    userService.getAllUsernames().then((result) => {
+      setUsernames(result.data);
+    });
   };
   const { username, firstName, lastName, specialization, password, role } =
     user;
@@ -52,15 +46,16 @@ export default function AddUser() {
         return;
       }
     }
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    await axios.post("http://localhost:9000/api/auth/register", user, config);
-    console.log(usernames);
-    navigate("/users");
+    authService.register(user).then((result) => {
+      if (result.status === 201) {
+        message.success("Dodali ste novog korisnika");
+        navigate("/users");
+      } else {
+        message.error("Niste dodali novog korisnika");
+        navigate("/users");
+      }
+    });
+    // navigate("/users");
   };
 
   const onFinishFailed = (errorInfo) => {

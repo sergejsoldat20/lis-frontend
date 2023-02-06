@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import patientService from "../services/patientService.service";
 import { Link } from "react-router-dom";
-export default function ViewBiochemistry() {
+export default function Patients() {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
     loadPatients();
-  }, []);
+  }, patients);
 
-  const loadPatients = async () => {
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    const result = await axios.get("http://localhost:9000/patients", config);
-    setPatients(result.data);
+  const loadPatients = () => {
+    patientService.getAll().then((result) => {
+      setPatients(result.data);
+    });
   };
 
   return (

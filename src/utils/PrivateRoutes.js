@@ -1,12 +1,13 @@
 import React from "react";
 import jwtDecode from "jwt-decode";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useNavigate } from "react-router-dom";
 
 const PrivateRoutes = () => {
   return checkJwt() ? <Outlet /> : <Navigate to="/" />;
 };
 
 const checkJwt = () => {
+  const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
   console.log("USER JWT:" + jwt);
   if (jwt === null) return false;
@@ -16,6 +17,7 @@ const checkJwt = () => {
   if (currentTime > expirationDate) {
     localStorage.removeItem("jwt");
     localStorage.removeItem("role");
+    navigate("/");
     return false;
   } else {
     return true;

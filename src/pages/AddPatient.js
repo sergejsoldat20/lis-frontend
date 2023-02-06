@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
+import patientService from "../services/patientService.service";
 import {
   Button,
   Radio,
@@ -51,14 +52,17 @@ export default function AddPatient() {
         return;
       }
     }
-    const jwt = localStorage.getItem("jwt");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
-    await axios.post("http://localhost:9000/patients", patient, config);
-    navigate("/patients");
+    patientService.insert(patient).then((result) => {
+      console.log(result.status);
+      if (result.status === 201) {
+        message.success("Uspjesno ste dodali pacijenta!");
+        navigate("/patients");
+      } else {
+        message.error("Niste uspjesno dodali pacijenta!");
+        navigate("/patients");
+      }
+    });
+    // navigate("/patients");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
