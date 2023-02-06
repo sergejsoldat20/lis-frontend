@@ -18,7 +18,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import UsersView from "./pages/UsersView";
 import UserView from "./pages/UserView";
 import Profile from "./pages/Profile";
-import ReferentValues from "./pages/ReferentValues";
+// import ReferentValues from "./pages/ReferentValues";
 
 function App() {
   return (
@@ -46,11 +46,11 @@ function App() {
             />
             <Route exact path="/users/:id" element={<UserView />} />
             <Route exact path="/profile" element={<Profile />} />
-            <Route
+            {/* <Route
               exact
               paht="/definition-of-values"
               element={<ReferentValues />}
-            />
+            /> */}
           </Route>
           <Route element={<AdminAuthorization />}>
             <Route exact path="/add-user" element={<AddUser />} />

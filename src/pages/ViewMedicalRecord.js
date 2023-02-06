@@ -50,6 +50,7 @@ const ViewMedicalRecord = (props) => {
     recordsService.deleteRecord(props.id).then((result) => {
       if (result.status === 200) {
         message.success("Uspjesno je obrisan nalaz!");
+        props.handleDelete(props.id);
       } else {
         message.error("Nalaz nije obrisan uspjesno!");
       }
@@ -67,7 +68,7 @@ const ViewMedicalRecord = (props) => {
   const validate = (id) => {
     recordsService.validate(id).then(function (response) {
       console.log(response.data);
-      //  window.location.reload();
+      props.handleValidate(props.id);
     });
   };
   return (
@@ -75,6 +76,7 @@ const ViewMedicalRecord = (props) => {
       sx={{
         borderBottom: 5,
         borderColor: "#D1D1D1",
+        width: 1000,
       }}
     >
       <CardContent sx={{ textAlign: "left" }}>
@@ -222,5 +224,7 @@ const ViewMedicalRecord = (props) => {
 };
 ViewMedicalRecord.propTypes = {
   id: PropTypes.number,
+  handleDelete: PropTypes.func,
+  handleValidate: PropTypes.func,
 };
 export default ViewMedicalRecord;
