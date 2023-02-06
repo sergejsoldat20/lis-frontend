@@ -2,14 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { Grid, List, Button } from "@mui/material";
 import ViewMedicalRecord from "./ViewMedicalRecord";
+import { DatePicker } from "antd";
 import recordsService from "../services/recordsService.service";
 export default function medicalRecords() {
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [displayAllRecords, setDisplayAllRecords] = useState(true);
+  const [datePicker, setDatePicker] = useState("");
 
   useEffect(() => {
     loadMedicalRecords();
-  }, [medicalRecords]);
+  }, []);
 
   const loadMedicalRecords = async () => {
     recordsService
@@ -33,38 +35,58 @@ export default function medicalRecords() {
   const handleShowAll = () => {
     setDisplayAllRecords(true);
   };
-
+  const dateFormat = "YYYY-MM-DD";
   return (
     <Grid
       container
       spacing={0}
-      direction="column"
+      direction="row"
       alignItems="center"
       justifyContent="center"
     >
       <h3>Lista rezultata</h3>
-      <div>
-        <Button onClick={handleFilterInvalid}>U procesu rada</Button>
-        <Button onClick={handleShowAll}>Svi</Button>
-      </div>
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Button
+          onClick={handleFilterInvalid}
+          sx={{ height: 30, boxShadow: !displayAllRecords ? 1 : 0 }}
+        >
+          U procesu rada
+        </Button>
+        <Button
+          onClick={handleShowAll}
+          sx={{ height: 30, boxShadow: displayAllRecords ? 1 : 0 }}
+        >
+          Svi
+        </Button>
+        <DatePicker
+          format={dateFormat}
+          onChange={(e, date) => {
+            setDatePicker(date);
+          }}
+        />
+      </Grid>
       <List>
-        {displayAllRecords
-          ? medicalRecords.map((medicalRecord, index) => (
-              <ViewMedicalRecord
-                id={medicalRecord.id}
-                key={index}
-                sx={{ width: 1200 }}
-              />
-            ))
-          : medicalRecords
-              .filter((medicalRecord) => medicalRecord.isValid === "false")
-              .map((medicalRecord, index) => (
-                <ViewMedicalRecord
-                  id={medicalRecord.id}
-                  key={index}
-                  sx={{ width: 1200 }}
-                />
-              ))}
+        {medicalRecords
+          .filter((medicalRecord) => {
+            return displayAllRecords ? true : medicalRecord.isValid === "false";
+          })
+          .filter((medicalRecord) => {
+            return datePicker === ""
+              ? true
+              : medicalRecord.createdTime.split("T")[0].includes(datePicker);
+          })
+          .map((medicalRecord, index) => (
+            <ViewMedicalRecord
+              id={medicalRecord.id}
+              key={index}
+              sx={{ width: 1200 }}
+            />
+          ))}
       </List>
     </Grid>
   );
