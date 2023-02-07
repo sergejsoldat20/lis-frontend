@@ -6,6 +6,10 @@ export const getAll = () => {
   return instance.get("/medical-records");
 };
 
+export const getPaginated = (page, size) => {
+  return instance.get(`/medical-records/paginated?page=${page}&?size=${size}`);
+};
+
 export const getRecordById = (id) => {
   return instance.get(`/medical-records/${id}`);
 };
@@ -64,6 +68,7 @@ export const getUrineById = (id) => {
 
 export default {
   getAll,
+  getPaginated,
   getRecordById,
   validate,
   getBiochemistries,
