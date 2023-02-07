@@ -35,21 +35,40 @@ export default function medicalRecords() {
   const handleShowAll = () => {
     setDisplayAllRecords(true);
   };
+  const deleteMedicalRecord = (id) => {
+    setMedicalRecords(
+      medicalRecords.filter((medicalRecord) => medicalRecord.id !== id)
+    );
+  };
+  const validateMedicalRecord = (id) => {
+    setMedicalRecords(
+      medicalRecords.map((medicalRecord) => {
+        if (medicalRecord.id === id) {
+          medicalRecord.isValid = true;
+        }
+        return medicalRecord;
+      })
+    );
+  };
   const dateFormat = "YYYY-MM-DD";
   return (
     <Grid
       container
-      spacing={0}
-      direction="row"
-      alignItems="center"
-      justifyContent="center"
+      sx={{
+        spacing: 0,
+        direction: "row",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
       <h3>Lista rezultata</h3>
       <Grid
         container
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
+        sx={{
+          direction: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <Button
           onClick={handleFilterInvalid}
@@ -80,11 +99,12 @@ export default function medicalRecords() {
               ? true
               : medicalRecord.createdTime.split("T")[0].includes(datePicker);
           })
-          .map((medicalRecord, index) => (
+          .map((medicalRecord) => (
             <ViewMedicalRecord
               id={medicalRecord.id}
-              key={index}
-              sx={{ width: 1200 }}
+              handleDelete={deleteMedicalRecord}
+              handleValidate={validateMedicalRecord}
+              key={medicalRecord.id}
             />
           ))}
       </List>

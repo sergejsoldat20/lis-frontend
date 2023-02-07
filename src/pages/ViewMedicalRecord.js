@@ -17,6 +17,7 @@ import recordsService from "../services/recordsService.service";
 import { CheckOutlined, CloseOutlined } from "@mui/icons-material";
 const ViewMedicalRecord = (props) => {
   const [expanded, setExpanded] = useState([]);
+  const [isValidLocked, setIsValidLocked] = useState(false);
   const handleExpandClick = (number) => {
     if (expanded.includes(number)) {
       const expandedCopy = expanded.filter((element) => {
@@ -50,6 +51,7 @@ const ViewMedicalRecord = (props) => {
     recordsService.deleteRecord(props.id).then((result) => {
       if (result.status === 200) {
         message.success("Uspjesno je obrisan nalaz!");
+        props.handleDelete(props.id);
       } else {
         message.error("Nalaz nije obrisan uspjesno!");
       }
@@ -58,6 +60,9 @@ const ViewMedicalRecord = (props) => {
   const loadMedicalRecord = () => {
     recordsService.getRecordById(props.id).then((result) => {
       setMedicalRecord(result.data);
+      if (result.data.isValid === "true") {
+        setIsValidLocked(true);
+      }
     });
   };
   const valid = (x) => {
@@ -67,7 +72,10 @@ const ViewMedicalRecord = (props) => {
   const validate = (id) => {
     recordsService.validate(id).then(function (response) {
       console.log(response.data);
-      //  window.location.reload();
+      props.handleValidate(props.id);
+      if (!isValidLocked) {
+        setIsValidLocked(true);
+      }
     });
   };
   return (
@@ -75,6 +83,7 @@ const ViewMedicalRecord = (props) => {
       sx={{
         borderBottom: 5,
         borderColor: "#D1D1D1",
+        width: 1000,
       }}
     >
       <CardContent sx={{ textAlign: "left" }}>
@@ -141,6 +150,7 @@ const ViewMedicalRecord = (props) => {
                 <Col>
                   <Button
                     type="primary"
+                    disabled={isValidLocked}
                     onClick={() => validate(medicalRecord.id)}
                   >
                     Validiraj
@@ -222,5 +232,7 @@ const ViewMedicalRecord = (props) => {
 };
 ViewMedicalRecord.propTypes = {
   id: PropTypes.number,
+  handleDelete: PropTypes.func,
+  handleValidate: PropTypes.func,
 };
 export default ViewMedicalRecord;
