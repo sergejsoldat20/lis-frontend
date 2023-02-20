@@ -10,7 +10,7 @@ export default function UsersView() {
   useEffect(() => {
     loadUsers();
     console.log(id);
-  }, users);
+  }, []);
 
   const loadUsers = () => {
     userService.getAll().then((result) => {

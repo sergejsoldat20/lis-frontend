@@ -90,6 +90,7 @@ export default function medicalRecords() {
       <h3>Lista rezultata</h3>
       <Grid
         container
+        item
         sx={{
           direction: "row",
           alignItems: "center",
@@ -126,7 +127,7 @@ export default function medicalRecords() {
           />
         ))}
       </List>
-      <Grid container sx={{ justifyContent: "center" }}>
+      <Grid container item sx={{ justifyContent: "center" }}>
         <Button
           disabled={currentPage === 0}
           onClick={() => handlePageChange(currentPage - 1)}

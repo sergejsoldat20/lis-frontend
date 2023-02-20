@@ -6,7 +6,7 @@ export default function Patients() {
 
   useEffect(() => {
     loadPatients();
-  }, patients);
+  }, []);
 
   const loadPatients = () => {
     patientService.getAll().then((result) => {

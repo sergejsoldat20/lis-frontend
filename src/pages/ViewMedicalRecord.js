@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
-import { Grid, ListItem } from "@mui/material";
+import { Grid, ListItem, List } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import { Box } from "@mui/system";
 import CardActions from "@mui/material/CardActions";
@@ -143,7 +143,7 @@ const ViewMedicalRecord = (props) => {
             </IconButton>
           </CardActions>
         </ListItem>
-        <ListItem variant="body2">
+        <List variant="body2">
           {!CheckIfNurse() && (
             <ListItem variant="body2">
               <Row gutter={8}>
@@ -168,7 +168,7 @@ const ViewMedicalRecord = (props) => {
               </Row>
             </ListItem>
           )}
-        </ListItem>
+        </List>
       </Box>
 
       <Grid

@@ -189,8 +189,8 @@ export default function AddMedicalRecord() {
                 <div className="card-header">
                   <Grid
                     sx={{ height: 265 }}
-                    alignItems="center"
-                    justifyContent="center"
+                    alignitems="center"
+                    justifycontent="center"
                     marginTop={2}
                     borderBottom={3}
                     borderColor="#D1D1D1"
@@ -246,8 +246,8 @@ export default function AddMedicalRecord() {
                   </Grid>
                   <Grid
                     sx={{ height: 380 }}
-                    alignItems="center"
-                    justifyContent="center"
+                    alignitems="center"
+                    justifycontent="center"
                     marginTop={2}
                     borderBottom={3}
                     borderColor="#D1D1D1"
@@ -318,8 +318,8 @@ export default function AddMedicalRecord() {
                   </Grid>
                   <Grid
                     sx={{ height: 210 }}
-                    alignItems="center"
-                    justifyContent="center"
+                    alignitems="center"
+                    justifycontent="center"
                     marginTop={2}
                     borderBottom={3}
                     borderColor="#D1D1D1"
@@ -368,8 +368,8 @@ export default function AddMedicalRecord() {
                   </Grid>
                   <Grid
                     sx={{ height: 265 }}
-                    alignItems="center"
-                    justifyContent="center"
+                    alignitems="center"
+                    justifycontent="center"
                     marginTop={2}
                   >
                     <b>Nalaz</b>
@@ -401,8 +401,8 @@ export default function AddMedicalRecord() {
                       {!CheckIfNurse() && (
                         <Form.Item
                           label="Validan:"
-                          alignItems="left"
-                          justifyContent="left"
+                          alignitems="left"
+                          justifycontent="left"
                         >
                           <Radio.Group
                             name="isValid"

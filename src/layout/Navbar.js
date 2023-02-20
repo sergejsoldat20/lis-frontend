@@ -35,6 +35,9 @@ export default function Navbar() {
     localStorage.removeItem("role");
     navigate("/");
   };
+
+  // const menuItems = [{ key: "records", label: }];
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -52,6 +55,7 @@ export default function Navbar() {
         }}
       >
         <Menu.Item
+          key="item-1"
           style={{ float: "left", fontSize: 35, textDecoration: "none" }}
         >
           <Link
@@ -68,6 +72,7 @@ export default function Navbar() {
         </Menu.Item>
         {checkIfAuthorized() && (
           <Menu.SubMenu
+            key="submenu-1"
             style={{ float: "left", textDecoration: "none" }}
             title="Pacijenti"
           >
@@ -82,9 +87,13 @@ export default function Navbar() {
           </Menu.SubMenu>
         )}
         {checkIfAuthorized() && (
-          <Menu.SubMenu style={{ float: "left" }} title="Nalazi">
+          <Menu.SubMenu
+            key="submenu-2"
+            style={{ float: "left" }}
+            title="Nalazi"
+          >
             <Menu.ItemGroup>
-              <Menu.Item key="setting:1">
+              <Menu.Item key="setting:3">
                 <Link
                   style={{ textDecoration: "none" }}
                   to="/add-medical-record"
@@ -92,14 +101,14 @@ export default function Navbar() {
                   Dodaj
                 </Link>
               </Menu.Item>
-              <Menu.Item key="setting:2">
+              <Menu.Item key="setting:4">
                 <Link to="/medical-records">Pregled</Link>
               </Menu.Item>
             </Menu.ItemGroup>
           </Menu.SubMenu>
         )}
         {checkIfAuthorized() && (
-          <Menu.Item style={{ float: "left" }}>
+          <Menu.Item style={{ float: "left" }} key="item-2">
             <Link style={{ textDecoration: "none" }} to="/profile">
               Profil
             </Link>
@@ -107,6 +116,7 @@ export default function Navbar() {
         )}
         {checkIfAuthorized() && (
           <Menu.SubMenu
+            key="submenu-3"
             style={{ float: "right" }}
             title={
               <span>
@@ -116,19 +126,21 @@ export default function Navbar() {
           >
             <Menu.ItemGroup title="Menu">
               {CheckIfAdmin() && (
-                <Menu.Item key="setting:1">
+                <Menu.Item key="setting:5">
                   <Link to="/add-user">Dodaj korisnika</Link>
                 </Menu.Item>
               )}
               {CheckIfAdmin() && (
-                <Menu.Item key="setting:2">
+                <Menu.Item key="setting:6">
                   <Link to="/users">Pregled korisnika</Link>
                 </Menu.Item>
               )}
-              <Menu.Item key="setting:3">
+              <Menu.Item key="setting:7">
                 Dark Mode <Switch onChange={onChange} />
               </Menu.Item>
-              <Menu.Item onClick={logout}>Log out</Menu.Item>
+              <Menu.Item key="setting:8" onClick={logout}>
+                Log out
+              </Menu.Item>
             </Menu.ItemGroup>
           </Menu.SubMenu>
         )}
