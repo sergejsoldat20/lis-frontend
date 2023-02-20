@@ -46,12 +46,16 @@ export default function medicalRecords() {
     recordsService.getInvalidPaginated(currentPage, pageSize).then((result) => {
       setMedicalRecords(result.data.content);
       setRecordsSize(result.data.totalElements);
-      console.log(currentPage);
+      console.log(result.data.totalElements + "");
     });
   };
   const handleFilterInvalid = () => {
     setCurrentPage(0);
     setDisplayAllRecords(false);
+  };
+
+  const handleFilterByDate = () => {
+    setCurrentPage(0);
   };
 
   const handleShowAll = () => {
@@ -108,6 +112,7 @@ export default function medicalRecords() {
           format={dateFormat}
           onChange={(e, date) => {
             setDatePicker(date);
+            handleFilterByDate();
           }}
         />
       </Grid>
@@ -129,7 +134,7 @@ export default function medicalRecords() {
           Previous
         </Button>
         <Button
-          disabled={endIndex >= recordsSize}
+          disabled={(currentPage + 1) * 3 >= recordsSize}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           Next
