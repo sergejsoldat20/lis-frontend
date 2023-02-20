@@ -12,48 +12,45 @@ export default function medicalRecords() {
   const [pageSize, setPageSize] = useState(3);
   const startIndex = currentPage * pageSize;
   const endIndex = startIndex + pageSize;
+  const [recordsSize, setRecordsSize] = useState(0);
   useEffect(() => {
-    console.log("jeb si mater");
-    console.log(startIndex);
-    console.log(endIndex);
-    loadMedicalRecords();
-  }, []);
-
-  /* const loadMedicalRecords = async () => {
-    recordsService
-      .getAll()
-      .then((result) => {
-        setMedicalRecords(
-          result.data.sort(
-            (a, b) => new Date(b.createdTime) - new Date(a.createdTime)
-          )
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }; */
-  const loadMedicalRecords = async () => {
-    recordsService
-      .getPaginated(currentPage, pageSize)
-      .then((result) => {
-        setMedicalRecords(
-          result.data.content.sort(
-            (a, b) => new Date(b.createdTime) - new Date(a.createdTime)
-          )
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log(medicalRecords.data);
-  };
+    if (displayAllRecords === true) {
+      loadMedicalRecords();
+    } else {
+      loadInvalidRecords();
+    }
+  }, [currentPage, datePicker, displayAllRecords, recordsSize]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
+  const loadMedicalRecords = () => {
+    if (datePicker === "") {
+      recordsService.getPaginated(currentPage, pageSize).then((result) => {
+        setMedicalRecords(result.data.content);
+        setRecordsSize(result.data.totalElements);
+        console.log(result.data.content);
+      });
+    } else {
+      recordsService
+        .getAllByDate(currentPage, pageSize, datePicker)
+        .then((result) => {
+          setMedicalRecords(result.data.content);
+          setRecordsSize(result.data.totalElements);
+        });
+    }
+  };
+
+  const loadInvalidRecords = () => {
+    recordsService.getInvalidPaginated(currentPage, pageSize).then((result) => {
+      setMedicalRecords(result.data.content);
+      setRecordsSize(result.data.totalElements);
+      console.log(currentPage);
+    });
+  };
   const handleFilterInvalid = () => {
+    setCurrentPage(0);
     setDisplayAllRecords(false);
   };
 
@@ -115,24 +112,14 @@ export default function medicalRecords() {
         />
       </Grid>
       <List>
-        {medicalRecords
-          .filter((medicalRecord) => {
-            return displayAllRecords ? true : medicalRecord.isValid === "false";
-          })
-          .filter((medicalRecord) => {
-            return datePicker === ""
-              ? true
-              : medicalRecord.createdTime.split("T")[0].includes(datePicker);
-          })
-          .slice(startIndex, endIndex)
-          .map((medicalRecord) => (
-            <ViewMedicalRecord
-              id={medicalRecord.id}
-              handleDelete={deleteMedicalRecord}
-              handleValidate={validateMedicalRecord}
-              key={medicalRecord.id}
-            />
-          ))}
+        {medicalRecords.map((medicalRecord) => (
+          <ViewMedicalRecord
+            id={medicalRecord.id}
+            handleDelete={deleteMedicalRecord}
+            handleValidate={validateMedicalRecord}
+            key={medicalRecord.id}
+          />
+        ))}
       </List>
       <Grid container sx={{ justifyContent: "center" }}>
         <Button
@@ -142,7 +129,7 @@ export default function medicalRecords() {
           Previous
         </Button>
         <Button
-          disabled={endIndex >= medicalRecords.length}
+          disabled={endIndex >= recordsSize}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           Next

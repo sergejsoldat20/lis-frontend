@@ -7,7 +7,35 @@ export const getAll = () => {
 };
 
 export const getPaginated = (page, size) => {
-  return instance.get(`/medical-records/paginated?page=${page}&?size=${size}`);
+  const sortBy = "createdTime";
+  const sortOrder = "desc";
+  return instance.get(
+    `/medical-records/paginated?page=${page}&size=${size}&sort=${sortBy},${sortOrder}`
+  );
+};
+
+export const getAllByDate = (page, size, createdTime) => {
+  const sortBy = "createdTime";
+  const sortOrder = "desc";
+  return instance.get(
+    `/medical-records/date-filtered?page=${page}&size=${size}&sort=${sortBy},${sortOrder}&createdTime=${createdTime}`
+  );
+};
+
+export const getInvalidPaginated = (page, size) => {
+  const sortBy = "createdTime";
+  const sortOrder = "desc";
+  return instance.get(
+    `/medical-records/invalid-records?page=${page}&size=${size}&sort=${sortBy},${sortOrder}`
+  );
+};
+
+export const getInvalidByDate = (page, size, createdTime) => {
+  const sortBy = "createdTime";
+  const sortOrder = "desc";
+  return instance.get(
+    `/medical-records/invalid-records/date-filtered?page=${page}&size=${size}&sort=${sortBy},${sortOrder}&createdTime=${createdTime}`
+  );
 };
 
 export const getRecordById = (id) => {
@@ -68,6 +96,9 @@ export const getUrineById = (id) => {
 
 export default {
   getAll,
+  getInvalidByDate,
+  getInvalidPaginated,
+  getAllByDate,
   getPaginated,
   getRecordById,
   validate,

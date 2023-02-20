@@ -67,7 +67,10 @@ export default function Navbar() {
           </Link>
         </Menu.Item>
         {checkIfAuthorized() && (
-          <Menu.SubMenu style={{ float: "left" }} title="Pacijenti">
+          <Menu.SubMenu
+            style={{ float: "left", textDecoration: "none" }}
+            title="Pacijenti"
+          >
             <Menu.ItemGroup>
               <Menu.Item key="setting:1">
                 <Link to="/add-patient">Dodaj</Link>
@@ -82,7 +85,10 @@ export default function Navbar() {
           <Menu.SubMenu style={{ float: "left" }} title="Nalazi">
             <Menu.ItemGroup>
               <Menu.Item key="setting:1">
-                <Link style={{}} to="/add-medical-record">
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to="/add-medical-record"
+                >
                   Dodaj
                 </Link>
               </Menu.Item>
