@@ -1,17 +1,28 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import patientService from "../services/patientService.service";
 import { Link } from "react-router-dom";
+import { Grid, Button } from "@mui/material";
 export default function Patients() {
   const [patients, setPatients] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [recordsSize, setRecordsSize] = useState(0);
   useEffect(() => {
-    loadPatients();
-  }, []);
+    patientService.getAllPaginated(currentPage, pageSize).then((result) => {
+      setPatients(result.data.content);
+      setRecordsSize(result.data.totalElements);
+    });
+  }, [currentPage, recordsSize]);
 
   const loadPatients = () => {
     patientService.getAll().then((result) => {
       setPatients(result.data);
     });
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -46,6 +57,20 @@ export default function Patients() {
             ))}
           </tbody>
         </table>
+        <Grid container item sx={{ justifyContent: "center" }}>
+          <Button
+            disabled={currentPage === 0}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            Previous
+          </Button>
+          <Button
+            disabled={(currentPage + 1) * pageSize >= recordsSize}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </Grid>
       </div>
     </div>
   );

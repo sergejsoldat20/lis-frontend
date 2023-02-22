@@ -6,6 +6,9 @@ export const getAll = () => {
   return instance.get("/patients");
 };
 
+export const getAllPaginated = (page, size) => {
+  return instance.get(`/patients/paginated?size=${size}&page=${page}`);
+};
 export const getById = (id) => {
   return instance.get(`/patients/${id}`);
 };
@@ -28,6 +31,7 @@ export const getGenderById = (id) => {
 
 export default {
   getAll,
+  getAllPaginated,
   getById,
   insert,
   findSinglePatient,

@@ -47,7 +47,7 @@ export default function AddUser() {
       }
     }
     authService.register(user).then((result) => {
-      if (result.status === 201) {
+      if (result.status === 200) {
         message.success("Dodali ste novog korisnika");
         navigate("/users");
       } else {

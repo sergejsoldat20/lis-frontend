@@ -33,11 +33,11 @@ const ViewUrine = (props) => {
       <Table aria-label="simple table">
         <TableBody width="">
           <TableRow>
-            <TableCell align="left">urine sediment</TableCell>
+            <TableCell align="left">urin sediment</TableCell>
             <TableCell align="center">{urine.urineSediment}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="left">u-proteins</TableCell>
+            <TableCell align="left">u-proteini</TableCell>
             <TableCell align="center">{urine.uproteins}</TableCell>
           </TableRow>
         </TableBody>

@@ -66,7 +66,7 @@ const ViewBiochemistry = (props) => {
                 : "white",
             }}
           >
-            <TableCell align="left">s-creatinine</TableCell>
+            <TableCell align="left">s-kreatinin</TableCell>
             <TableCell align="center">
               {biochemistry.screatinine} [mmol/L]
             </TableCell>
@@ -85,7 +85,7 @@ const ViewBiochemistry = (props) => {
                 : "white",
             }}
           >
-            <TableCell align="left">s-glucose</TableCell>
+            <TableCell align="left">s-glukoza</TableCell>
             <TableCell align="center">
               {biochemistry.sglucose} [mmol/L]
             </TableCell>

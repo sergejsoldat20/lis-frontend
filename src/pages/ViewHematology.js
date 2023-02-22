@@ -69,7 +69,7 @@ const ViewHematology = (props) => {
                 : "white",
             }}
           >
-            <TableCell align="left">leukocytes</TableCell>
+            <TableCell align="left">leukociti</TableCell>
             <TableCell align="center">
               {hematology.leukocytes} [10^9/L]
             </TableCell>
@@ -88,7 +88,7 @@ const ViewHematology = (props) => {
                 : "white",
             }}
           >
-            <TableCell align="left">erythrocytes</TableCell>
+            <TableCell align="left">eritrociti</TableCell>
             <TableCell align="center">
               {hematology.erythrocytes} [10^12/L]
             </TableCell>
@@ -107,7 +107,7 @@ const ViewHematology = (props) => {
                 : "white",
             }}
           >
-            <TableCell align="left">hemaglobin</TableCell>
+            <TableCell align="left">hemoglobin</TableCell>
             <TableCell align="center">{hematology.hemaglobin} [g/L]</TableCell>
             <TableCell align="center">
               ({borders.hemaglobinLow} - {borders.hemaglobinHigh})
@@ -124,7 +124,7 @@ const ViewHematology = (props) => {
                 : "white",
             }}
           >
-            <TableCell align="left">hematocrit</TableCell>
+            <TableCell align="left">hematokrit</TableCell>
             <TableCell align="center">{hematology.hematocrit} [%]</TableCell>
             <TableCell align="center">
               ({borders.hematocritLow} - {borders.hematocritHigh})
@@ -141,7 +141,7 @@ const ViewHematology = (props) => {
                 : "white",
             }}
           >
-            <TableCell align="left">platelets</TableCell>
+            <TableCell align="left">trombociti</TableCell>
             <TableCell align="center">
               {hematology.platelets} [10^9/L]
             </TableCell>
