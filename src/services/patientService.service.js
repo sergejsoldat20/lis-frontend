@@ -22,10 +22,15 @@ export const insert = (patient) => {
   return instance.post("/patients", patient);
 };
 
+export const getGenderById = (id) => {
+  return instance.get(`patients/gender/${id}`);
+};
+
 export default {
   getAll,
   getById,
   insert,
   findSinglePatient,
   getAllRecordsByPatientId,
+  getGenderById,
 };

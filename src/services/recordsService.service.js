@@ -54,6 +54,10 @@ export const getUrines = () => {
   return instance.get("/urines");
 };
 
+export const getBorders = () => {
+  return instance.get("/borders");
+};
+
 export const deleteRecord = (id) => {
   return instance.delete(`/medical-records/${id}`);
 };
@@ -94,6 +98,10 @@ export const getUrineById = (id) => {
   return instance.get(`/urines/${id}`);
 };
 
+export const getBordersById = (id) => {
+  return instance.get(`borders/${id}`);
+};
+
 export default {
   getAll,
   getInvalidByDate,
@@ -105,6 +113,7 @@ export default {
   getBiochemistries,
   getHematologies,
   getUrines,
+  getBorders,
   insertBiochemistry,
   insertHematology,
   insertUrine,
@@ -114,4 +123,5 @@ export default {
   getBiochemistryById,
   getHematologyById,
   getUrineById,
+  getBordersById,
 };

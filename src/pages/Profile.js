@@ -54,9 +54,6 @@ export default function Profile() {
               </ul>
             </div>
           </div>
-          <Link className="btn btn-primary mx-2" to={"/users"}>
-            Izmjeni
-          </Link>
         </div>
       </div>
     </div>

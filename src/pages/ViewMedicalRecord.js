@@ -8,13 +8,14 @@ import { Box } from "@mui/system";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
-import { Button, Row, Col, message } from "antd";
+import { Button, Row, Col, message, Popconfirm } from "antd";
 import CheckIfNurse from "../utils/CheckIfNurse";
 import ViewBiochemistry from "./ViewBiochemistry";
 import ViewHematology from "./ViewHematology";
 import ViewUrine from "./ViewUrine";
 import recordsService from "../services/recordsService.service";
 import { CheckOutlined, CloseOutlined } from "@mui/icons-material";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 const ViewMedicalRecord = (props) => {
   const [expanded, setExpanded] = useState([]);
   const [isValidLocked, setIsValidLocked] = useState(false);
@@ -45,9 +46,10 @@ const ViewMedicalRecord = (props) => {
   });
   useEffect(() => {
     loadMedicalRecord();
-  });
+  }, []);
 
   const onClickDeleteRecord = async () => {
+    handleExpandClick(props.id);
     recordsService.deleteRecord(props.id).then((result) => {
       if (result.status === 200) {
         message.success("Uspjesno je obrisan nalaz!");
@@ -71,7 +73,6 @@ const ViewMedicalRecord = (props) => {
   };
   const validate = (id) => {
     recordsService.validate(id).then(function (response) {
-      console.log(response.data);
       props.handleValidate(props.id);
       if (!isValidLocked) {
         setIsValidLocked(true);
@@ -157,13 +158,27 @@ const ViewMedicalRecord = (props) => {
                   </Button>
                 </Col>
                 <Col>
-                  <Button
-                    style={{ backgroundColor: "red", color: "white" }}
-                    type="primary"
-                    onClick={() => onClickDeleteRecord(medicalRecord.id)}
+                  <Popconfirm
+                    title="Da li zelite obrisati nalaz?"
+                    onConfirm={() => onClickDeleteRecord(medicalRecord.id)}
+                    okText="Da"
+                    cancelText="Ne"
+                    icon={
+                      <QuestionCircleOutlined
+                        style={{
+                          color: "red",
+                        }}
+                      />
+                    }
                   >
-                    Obrisi
-                  </Button>
+                    <Button
+                      style={{ backgroundColor: "red", color: "white" }}
+                      type="primary"
+                      // onClick={() => onClickDeleteRecord(medicalRecord.id)}
+                    >
+                      Obrisi
+                    </Button>
+                  </Popconfirm>
                 </Col>
               </Row>
             </ListItem>
@@ -177,8 +192,8 @@ const ViewMedicalRecord = (props) => {
         sx={{
           display: "flex",
           justifyContent: "space-around",
-          paddingLeft: 2,
-          paddingRight: 2,
+          // paddingLeft: 2,
+          // paddingRight: 2,
         }}
       >
         <Grid item xs={4}>
@@ -189,7 +204,10 @@ const ViewMedicalRecord = (props) => {
           >
             <CardContent>
               {medicalRecord.biochemistryId != null ? (
-                <ViewBiochemistry id={medicalRecord.biochemistryId} />
+                <ViewBiochemistry
+                  id={medicalRecord.biochemistryId}
+                  idPatient={medicalRecord.patientId}
+                />
               ) : (
                 <TableContainer></TableContainer>
               )}
@@ -204,7 +222,10 @@ const ViewMedicalRecord = (props) => {
           >
             <CardContent>
               {medicalRecord.hematologyId != null ? (
-                <ViewHematology id={medicalRecord.hematologyId} />
+                <ViewHematology
+                  id={medicalRecord.hematologyId}
+                  idPatient={medicalRecord.patientId}
+                />
               ) : (
                 <TableContainer></TableContainer>
               )}

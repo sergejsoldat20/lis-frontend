@@ -2,14 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { Grid, List, Button } from "@mui/material";
 import ViewMedicalRecord from "./ViewMedicalRecord";
-import { DatePicker } from "antd";
+import { DatePicker, Select } from "antd";
 import recordsService from "../services/recordsService.service";
+import { Label } from "@mui/icons-material";
+
 export default function medicalRecords() {
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [displayAllRecords, setDisplayAllRecords] = useState(true);
   const [datePicker, setDatePicker] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(3);
+  const [deletedId, setDeletedId] = useState(0);
+  const [validatedId, setValidatedId] = useState(0);
+  const allPageSizes = [3, 5, 10];
   const startIndex = currentPage * pageSize;
   const endIndex = startIndex + pageSize;
   const [recordsSize, setRecordsSize] = useState(0);
@@ -19,7 +24,15 @@ export default function medicalRecords() {
     } else {
       loadInvalidRecords();
     }
-  }, [currentPage, datePicker, displayAllRecords, recordsSize]);
+  }, [
+    currentPage,
+    datePicker,
+    displayAllRecords,
+    recordsSize,
+    deletedId,
+    validatedId,
+    pageSize,
+  ]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -30,7 +43,7 @@ export default function medicalRecords() {
       recordsService.getPaginated(currentPage, pageSize).then((result) => {
         setMedicalRecords(result.data.content);
         setRecordsSize(result.data.totalElements);
-        console.log(result.data.content);
+        // console.log(result.data.content);
       });
     } else {
       recordsService
@@ -41,12 +54,14 @@ export default function medicalRecords() {
         });
     }
   };
-
+  const onChange = (value) => {
+    setCurrentPage(0);
+    setPageSize(value);
+  };
   const loadInvalidRecords = () => {
     recordsService.getInvalidPaginated(currentPage, pageSize).then((result) => {
       setMedicalRecords(result.data.content);
       setRecordsSize(result.data.totalElements);
-      console.log(result.data.totalElements + "");
     });
   };
   const handleFilterInvalid = () => {
@@ -59,14 +74,17 @@ export default function medicalRecords() {
   };
 
   const handleShowAll = () => {
+    setCurrentPage(0);
     setDisplayAllRecords(true);
   };
   const deleteMedicalRecord = (id) => {
+    setDeletedId(id);
     setMedicalRecords(
       medicalRecords.filter((medicalRecord) => medicalRecord.id !== id)
     );
   };
   const validateMedicalRecord = (id) => {
+    if (!displayAllRecords) setValidatedId(id);
     setMedicalRecords(
       medicalRecords.map((medicalRecord) => {
         if (medicalRecord.id === id) {
@@ -109,13 +127,15 @@ export default function medicalRecords() {
         >
           Svi
         </Button>
-        <DatePicker
-          format={dateFormat}
-          onChange={(e, date) => {
-            setDatePicker(date);
-            handleFilterByDate();
-          }}
-        />
+        {displayAllRecords && (
+          <DatePicker
+            format={dateFormat}
+            onChange={(e, date) => {
+              setDatePicker(date);
+              handleFilterByDate();
+            }}
+          />
+        )}
       </Grid>
       <List>
         {medicalRecords.map((medicalRecord) => (
@@ -135,11 +155,24 @@ export default function medicalRecords() {
           Previous
         </Button>
         <Button
-          disabled={(currentPage + 1) * 3 >= recordsSize}
+          disabled={(currentPage + 1) * pageSize >= recordsSize}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           Next
         </Button>
+        <Select
+          defaultValue={allPageSizes[0]}
+          placeholder="Velicina straince"
+          optionFilterProp="children"
+          style={{
+            width: 60,
+          }}
+          onChange={onChange}
+          options={allPageSizes.map((size) => ({
+            label: size,
+            value: size,
+          }))}
+        />
       </Grid>
     </Grid>
   );

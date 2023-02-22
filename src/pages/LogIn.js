@@ -13,7 +13,6 @@ export default function LogIn() {
         "http://localhost:9000/api/auth/login",
         values
       );
-      console.log(response.data.accessToken);
       const jwt = response.data.accessToken;
       localStorage.setItem("jwt", jwt);
       const config = {

@@ -14,7 +14,8 @@ const ViewUrine = (props) => {
   });
   useEffect(() => {
     loadUrine();
-  });
+    // console.log("ViewUrine");
+  }, []);
   const loadUrine = () => {
     recordsService.getUrineById(props.id).then((result) => {
       setUrine(result.data);
