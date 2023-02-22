@@ -11,7 +11,7 @@ export default function medicalRecords() {
   const [displayAllRecords, setDisplayAllRecords] = useState(true);
   const [datePicker, setDatePicker] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(5);
   const [deletedId, setDeletedId] = useState(0);
   const [validatedId, setValidatedId] = useState(0);
   const allPageSizes = [3, 5, 10];
@@ -161,7 +161,7 @@ export default function medicalRecords() {
           Next
         </Button>
         <Select
-          defaultValue={allPageSizes[0]}
+          defaultValue={allPageSizes[1]}
           placeholder="Velicina straince"
           optionFilterProp="children"
           style={{
